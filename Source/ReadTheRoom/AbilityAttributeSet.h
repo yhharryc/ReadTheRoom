@@ -21,23 +21,64 @@ public:
 	UAbilityAttributeSet();
 
 	// Health attribute
-	UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Health)
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData Health;
-	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, Health)
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, Health);
 
 		// Maximum Health attribute
-		UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_MaxHealth)
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
 	FGameplayAttributeData MaxHealth;
-	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, MaxHealth)
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, MaxHealth);
 
-		// Called on clients when Health is updated
-		UFUNCTION()
-	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
+		// Damage attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData Damage;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, Damage);
 
-	// Called on clients when MaxHealth is updated
-	UFUNCTION()
-	virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
+		// Stagger Damage attribute (damage applied to the stagger/balance meter)
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData StaggerDamage;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, StaggerDamage);
 
-	// Ensure properties are replicated
-	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+		// Stagger attribute (can also be called Balance; industry terms vary)
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData Stagger;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, Stagger);
+
+		// Maximum Stagger attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData MaxStagger;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, MaxStagger);
+
+		// Base Weapon Damage attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData BaseWeaponDamage;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, BaseWeaponDamage);
+
+		// Attack Speed attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData AttackSpeed;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, AttackSpeed);
+
+		// Max Ammo attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData MaxAmmo;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, MaxAmmo);
+
+		// Bullets Per Shot attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData BulletsPerShot;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, BulletsPerShot);
+
+		// Accuracy attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData Accuracy;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, Accuracy);
+
+		// Base Spread Angle attribute
+		UPROPERTY(BlueprintReadOnly, Category = "Attributes")
+	FGameplayAttributeData BaseSpreadAngle;
+	ATTRIBUTE_ACCESSORS(UAbilityAttributeSet, BaseSpreadAngle);
+
+
 };
