@@ -20,17 +20,17 @@ class READTHEROOM_API UReticleWidget : public UUserWidget
 
 public:
 	// Bindable widget references (must match your UMG design names)
-	UPROPERTY(BlueprintReadWrite, Category = "Reticle")
-	UImage* TopLine;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget), Category = "Reticle")
+	UWidget* TopLine;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Reticle")
-	UImage* BottomLine;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget), Category = "Reticle")
+	UWidget* BottomLine;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Reticle")
-	UImage* LeftLine;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget), Category = "Reticle")
+	UWidget* LeftLine;
 
-	UPROPERTY(BlueprintReadWrite, Category = "Reticle")
-	UImage* RightLine;
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget), Category = "Reticle")
+	UWidget* RightLine;
 
 	// Gap settings
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Reticle")

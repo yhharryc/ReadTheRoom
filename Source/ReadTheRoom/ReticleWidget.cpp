@@ -109,35 +109,19 @@ float UReticleWidget::CalculateGap(float SpreadAngleDegrees) const
 
 void UReticleWidget::ApplyReticlePositions(float Gap)
 {
-	// Update each reticle line's position using its canvas slot
-	if (TopLine)
-	{
-		if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(TopLine->Slot))
+	// Works with ANY widget type that has a CanvasPanelSlot parent
+	auto UpdatePosition = [Gap](UWidget* Widget, FVector2D Offset) {
+		if (Widget && Widget->Slot && Widget->Slot->IsA<UCanvasPanelSlot>())
 		{
-			CanvasSlot->SetPosition(FVector2D(0.f, +Gap));
+			UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(Widget->Slot);
+			CanvasSlot->SetPosition(Offset * Gap);
 		}
-	}
-	if (BottomLine)
-	{
-		if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(BottomLine->Slot))
-		{
-			CanvasSlot->SetPosition(FVector2D(0.f, -Gap));
-		}
-	}
-	if (LeftLine)
-	{
-		if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(LeftLine->Slot))
-		{
-			CanvasSlot->SetPosition(FVector2D(-Gap, 0.f));
-		}
-	}
-	if (RightLine)
-	{
-		if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(RightLine->Slot))
-		{
-			CanvasSlot->SetPosition(FVector2D(+Gap, 0.f));
-		}
-	}
+		};
+
+	UpdatePosition(TopLine, FVector2D(0, -1));   // (0, +Gap)
+	UpdatePosition(BottomLine, FVector2D(0, 1));  // (0, -Gap)
+	UpdatePosition(LeftLine, FVector2D(-1, 0));  // (-Gap, 0)
+	UpdatePosition(RightLine, FVector2D(1, 0));   // (+Gap, 0)
 }
 
 void UReticleWidget::OnWeaponFired()
