@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private bool destroyOnHit = true;
 
     private float spawnTime;
+    private bool hasHit=false;
 
     // We'll store a global flight direction
     private Vector3 flightDirection;
@@ -20,6 +21,19 @@ public class Projectile : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 endPosition;
     
+
+
+    private void Start()
+    {
+        /*
+        Collider[] hits = Physics.OverlapSphere(transform.position, gameObject.GetComponent<SphereCollider>().radius, 13);
+        if (hits.Length > 0) {
+            Debug.LogError("its trrrruuueeee");
+            OnTriggerEnter(hits[0]);
+        }
+        */
+    }
+
     /// <summary>
     /// Called by the spawner to initialize data,
     /// including a global flight direction.
@@ -67,7 +81,7 @@ public class Projectile : MonoBehaviour
         {
             return; 
         }
-        
+        if(hasHit)return;
         // 2) If it’s an IHitReceiver, we want to call the HitEventChain
         IHitReceiver hitReceiver = other.GetComponent<IHitReceiver>();
         if (hitReceiver != null)
@@ -90,9 +104,9 @@ public class Projectile : MonoBehaviour
                 };
                 eventContext.EventStarter = gameObject;
                 eventContext.Target = hitReceiver;
-                hitReceiver.OnHit(eventContext);
+                
                 // Now call the HitEventChain
-                //EventChainManager.Instance.ExecuteHitChain(ref eventContext);
+                EventChainManager.Instance.ExecuteHitChain(ref eventContext);
             }
             else
             {
@@ -110,20 +124,22 @@ public class Projectile : MonoBehaviour
                 };
                 eventContext.EventStarter = gameObject;
                 eventContext.Target = hitReceiver;
-                hitReceiver.OnHit(eventContext);
+                
                 // Then run the chain
-                //EventChainManager.Instance.ExecuteHitChain(ref tempContext);
+                EventChainManager.Instance.ExecuteHitChain(ref tempContext);
             }
-        }
 
         endPosition = transform.position;
 
         // Optionally debug distance traveled, etc.
         // float distance = Vector3.Distance(startPosition, endPosition);
-
+        hasHit = true;
         if (destroyOnHit)
         {
             Destroy(gameObject);
         }
+        }
+
+
     }
 }

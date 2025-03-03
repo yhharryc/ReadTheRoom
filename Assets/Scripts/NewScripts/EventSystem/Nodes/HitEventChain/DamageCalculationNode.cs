@@ -33,7 +33,7 @@ public class DamageCalculationNode : IEventNode<EventContext>
         character.TakeDamage(context);
 
         // 6) Trigger OnHit
-        //context.Target.OnHit(context.HitData);
+        context.Target.OnHit(context);
 
         if(character.Faction == Faction.ENEMY)
         {

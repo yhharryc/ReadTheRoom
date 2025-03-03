@@ -41,5 +41,6 @@ public class EnemyHitCollider : MonoBehaviour, IHitReceiver
     /// </summary>
     public void OnHit(EventContext eventContext)
     {
+        
     }
 }
