@@ -37,4 +37,49 @@ public class AttackDefinition : ScriptableObject
         }
         return true;
     }
+
+    public virtual void PerformAttack(ICharacter source, ICharacter target)
+    {
+        // 1) Safety checks
+        if (source == null) {
+            Debug.LogWarning($"[AttackDefinition] PerformAttack called with null source.");
+            return;
+        }
+        if (target == null) {
+            Debug.LogWarning($"[AttackDefinition] PerformAttack called with null target.");
+            return;
+        }
+
+        // 2) Obtain or define a base damage. 
+        //    Here we show a simple placeholder of 10f, 
+        //    but you could read from source's ability system or attribute set:
+        //      float baseDamage = source.GetAbilitySystemComponent().AttributeSet.Damage.CurrentValue;
+        float baseDamage = 10f; 
+        float finalDamage = baseDamage * damageMultiplier;
+
+        // 3) Build the EventContext 
+        var ctx = new EventContext {
+            Source = source,
+            Target = target as IHitReceiver,  // Must cast to IHitReceiver
+            AttackInfo = new AttackData {
+                BaseDamage = finalDamage,
+                // Optionally fill in other fields (AmmoType, PushType, etc.)
+            },
+            HitData = new HitData {
+                // FinalDamage often computed later in the chain, 
+                // but we can set 0f as placeholder or mirror AttackInfo.
+                FinalDamage = finalDamage,
+            }
+        };
+
+        // 4) Dispatch to the AttackEventChain (if you have a manager or global chain).
+        //    Typically you have something like:
+        //      EventChainManager.Instance.ExecuteAttackChain(ref ctx);
+        //    Adjust as needed for your own chain system.
+        //EventChainManager.Instance.ExecuteAttackChain(ref ctx);
+        target.TakeDamage(ctx);
+        // After this point, the chain of IEventNode will process the context
+        // (applying final damage, triggering VFX, etc.)
+    }
+
 }

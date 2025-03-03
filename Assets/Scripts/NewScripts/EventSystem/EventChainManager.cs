@@ -13,7 +13,7 @@ public class EventChainManager : MonoBehaviour
     public EventChain<EventContext> AttackEventChain { get; private set; }
     public EventChain<EventContext> HitEventChain { get; private set; }
     public EventChain<CharacterDiedEventContext> CharacterDiedEventChain { get; private set; }
-
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
