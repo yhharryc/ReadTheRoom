@@ -16,7 +16,7 @@ public class HandleHitReceiverNode : IEventNode<EventContext>
         if (character==null) {
             context.ShouldContinue = false; // Break the event chain
             Debug.Log("HitReceiver does not implement ICharacter or other valid types. Breaking the event chain.");
-            context.Target.OnHit(context.HitData);
+            //context.Target.OnHit(context.HitData);
         }
     }
 }

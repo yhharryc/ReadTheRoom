@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IHitReceiver {
 
     public GameObject Owner{get;}
-    void OnHit(HitData hitData);
+    void OnHit(EventContext eventContext);
     //changed type from HitInfo to HitData so there's more info passed here to be used. 
 }
 

@@ -72,7 +72,7 @@ public class Projectile : MonoBehaviour
         IHitReceiver hitReceiver = other.GetComponent<IHitReceiver>();
         if (hitReceiver != null)
         {
-            Debug.Log("HIT" + other.gameObject.name);
+            //Debug.Log("HIT" + other.gameObject.name);
             // If we have an eventContext from the weapon, let's reuse it
             if (eventContext != null)
             {
@@ -88,10 +88,11 @@ public class Projectile : MonoBehaviour
                     WasCrit = false,
                     IsLethalHit = false
                 };
+                eventContext.EventStarter = gameObject;
                 eventContext.Target = hitReceiver;
-                
+                hitReceiver.OnHit(eventContext);
                 // Now call the HitEventChain
-                EventChainManager.Instance.ExecuteHitChain(ref eventContext);
+                //EventChainManager.Instance.ExecuteHitChain(ref eventContext);
             }
             else
             {
@@ -107,9 +108,11 @@ public class Projectile : MonoBehaviour
                         }
                     }
                 };
-
+                eventContext.EventStarter = gameObject;
+                eventContext.Target = hitReceiver;
+                hitReceiver.OnHit(eventContext);
                 // Then run the chain
-                EventChainManager.Instance.ExecuteHitChain(ref tempContext);
+                //EventChainManager.Instance.ExecuteHitChain(ref tempContext);
             }
         }
 

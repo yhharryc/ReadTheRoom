@@ -413,7 +413,7 @@ public class PlayerCharacter : MonoBehaviour,
         // Implement logic for dying.
     }
 
-    public void OnHit(HitData hitData) { }
+    public void OnHit(EventContext eventContext) { }
 
     private void OnTriggerEnter(Collider other)
     {

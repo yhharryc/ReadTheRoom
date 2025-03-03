@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39f2f00e9ad9dd41a77e1b5071089ca, type: 3}
   m_Name: MeleeDistanceCondition
   m_EditorClassIdentifier: 
-  requiredDistance: 2
+  requiredDistance: 1.6

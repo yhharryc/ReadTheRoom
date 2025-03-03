@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: BaseEnemyBehavior
+  m_EditorClassIdentifier: 
+  mBehaviorSource:
+    behaviorName: BaseEnemyBehavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(427,-67.23038)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-3,203.645142)"},"ID":1,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.ConditionalEvaluator","NodeData":{"Offset":"(-146.444458,221.666687)"},"ID":2,"Name":"Conditional
+        Evaluator","Instant":true,"SharedBoolreevaluate":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"ConditionalconditionalTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables.CompareSharedBool","SharedBoolvariable":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"IsCombatStarted","IsShared":true,"BooleanmValue":false},"SharedBoolcompareTo":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true}},"BooleangraphLabel":false,"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(1,230.380966)","Comment":"Logic
+        after combat started\n"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"GetDistanceToTarget","NodeData":{"Offset":"(-138.575729,305.830566)"},"ID":4,"Name":"Get
+        Distance To Target","Instant":true,"SharedGameObjectself":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null,"GameObjectmValue":0},"SharedGameObjecttarget":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Player","IsShared":true,"IsGlobal":true,"GameObjectmValue":1},"SharedFloatstoreDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToTarget","IsShared":true,"SinglemValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(105.452454,297.2972)"},"ID":5,"Name":"Selector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-377.19278,216.111084)"},"ID":6,"Name":"Sequence","Instant":false,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform.GetPosition","NodeData":{"Offset":"(-134.710449,164.75589)"},"ID":7,"Name":"Get
+        Position","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Player","IsShared":true,"IsGlobal":true,"GameObjectmValue":2},"SharedVector3storeValue":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"TargetDestination","IsShared":true,"Vector3mValue":"(0,0,0)"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent.SetDestination","NodeData":{"Offset":"(-6.17015076,156.453613)"},"ID":8,"Name":"Set
+        Destination","Instant":false,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null,"GameObjectmValue":3},"SharedVector3destination":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"TargetDestination","IsShared":true,"Vector3mValue":"(0,0,0)"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent.Resume","NodeData":{"Offset":"(122.864151,164.709351)"},"ID":9,"Name":"Resume","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent.Move","NodeData":{"Offset":"(257.747772,156.569611)"},"ID":10,"Name":"Move","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null},"SharedVector3offset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,0,0)"}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(592.1949,182.0325)"},"ID":11,"Name":"Sequence","Instant":false,"AbortTypeabortType":"None","Children":[{"Type":"CheckAttackDefinition","NodeData":{"Offset":"(-483.447723,223.157471)"},"ID":12,"Name":"Check
+        Attack Definition","Instant":true,"SharedAttackDefinitionattackDef":{"Type":"SharedAttackDefinition","Name":"CurrentAttack","IsShared":true,"AttackDefinitionmValue":4},"SharedGameObjectself":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null,"GameObjectmValue":5},"SharedGameObjecttarget":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Player","IsShared":true,"IsGlobal":true,"GameObjectmValue":6},"SharedFloatdistanceToTarget":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToTarget","IsShared":true,"SinglemValue":0},"SharedBoolhasLineOfSight":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform.LookAt","NodeData":{"Offset":"(-338.6077,217.179626)"},"ID":13,"Name":"Look
+        At","Instant":false,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null,"GameObjectmValue":7},"SharedGameObjecttargetLookAt":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Player","IsShared":true,"IsGlobal":true,"GameObjectmValue":8},"SharedVector3worldPosition":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":null,"Vector3mValue":"(0,1,0)"},"Vector3worldUp":"(0,1,0)"},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityNavMeshAgent.Stop","NodeData":{"Offset":"(-209.813385,216.321838)"},"ID":14,"Name":"Stop","Instant":true,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null}},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.Play","NodeData":{"Offset":"(-55.87085,223.173218)"},"ID":15,"Name":"Play","Instant":false,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null,"GameObjectmValue":9},"SharedStringstateName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"AttackTree"},"Int32layer":0,"SinglenormalizedTime":0},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(70.13404,224.645355)"},"ID":16,"Name":"Sequence","Instant":false,"AbortTypeabortType":"None","Children":[{"Type":"WaitForEventWithTimeout","NodeData":{"Offset":"(-225.8139,198.1395)"},"ID":17,"Name":"Wait
+        For Event With Timeout","Instant":false,"SharedStringeventName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"CheckHit"},"SharedFloatmaxWaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":5}},{"Type":"CheckAttackDefinition","NodeData":{"Offset":"(-32.5582428,196.046753)"},"ID":18,"Name":"Check
+        Attack Definition","Instant":true,"SharedAttackDefinitionattackDef":{"Type":"SharedAttackDefinition","Name":"CurrentAttack","IsShared":true,"AttackDefinitionmValue":10},"SharedGameObjectself":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null,"GameObjectmValue":11},"SharedGameObjecttarget":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Player","IsShared":true,"IsGlobal":true,"GameObjectmValue":12},"SharedFloatdistanceToTarget":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToTarget","IsShared":true,"SinglemValue":0},"SharedBoolhasLineOfSight":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}},{"Type":"PerformAttackAction","NodeData":{"Offset":"(145.482849,196.5055)"},"ID":19,"Name":"Perform
+        Attack Action","Instant":true,"SharedAttackDefinitioncurrentAttack":{"Type":"SharedAttackDefinition","Name":"CurrentAttack","IsShared":true,"AttackDefinitionmValue":13},"SharedGameObjectplayerObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Player","IsShared":true,"IsGlobal":true,"GameObjectmValue":14}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator.WaitForState","NodeData":{"Offset":"(210.366333,221.67157)"},"ID":20,"Name":"Wait
+        For State","Instant":false,"SharedGameObjecttargetGameObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":null,"GameObjectmValue":15},"SharedStringstateName":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Idle"},"SharedIntlayer":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(331.379578,220.254272)"},"ID":21,"Name":"Wait","Instant":false,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":2},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":3}}]}]}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(197.518158,256.740082)"},"ID":22,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(12.0145245,167.781189)"},"ID":23,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Idling"},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"IsCombatStarted","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"HasLineOfSight","IsShared":true,"BooleanmValue":false},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"DistanceToTarget","IsShared":true,"SinglemValue":0},{"Type":"SharedAttackDefinition","Name":"CurrentAttack","IsShared":true,"AttackDefinitionmValue":16},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"TargetDestination","IsShared":true,"Vector3mValue":"(0,0,0)"}]}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 11400000, guid: fa7f66bb12d8fb94eb22276448e20f84, type: 2}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 11400000, guid: fa7f66bb12d8fb94eb22276448e20f84, type: 2}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 11400000, guid: fa7f66bb12d8fb94eb22276448e20f84, type: 2}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 11400000, guid: fa7f66bb12d8fb94eb22276448e20f84, type: 2}
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.12

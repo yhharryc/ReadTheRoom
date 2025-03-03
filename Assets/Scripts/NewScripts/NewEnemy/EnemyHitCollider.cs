@@ -39,7 +39,7 @@ public class EnemyHitCollider : MonoBehaviour, IHitReceiver
     /// Called by the projectile or melee system to notify of a hit.
     /// We'll adjust or annotate the HitData based on partType, then pass it to EnemyManager.
     /// </summary>
-    public void OnHit(HitData hitData)
+    public void OnHit(EventContext eventContext)
     {
     }
 }

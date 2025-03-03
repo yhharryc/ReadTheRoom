@@ -28,6 +28,6 @@ public class SetCurrentAttackValueNode : IEventNode<EventContext>
         //context.HitData.FinalDamage = context.AttackInfo.BaseDamage;
         //character.TakeDamage(context.HitData.FinalDamage);
         //Probably should be added to a new Node after this:
-        //context.Target.OnHit(context.HitData);
+        //context.Target.OnHit(context);
     }
 }

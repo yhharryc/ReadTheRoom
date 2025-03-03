@@ -35,7 +35,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     // ---------------------------------------------
     // ICharacter / IHitReceiver Implementation
     // ---------------------------------------------
-    public void OnHit(HitData hitData) { /* ... */ }
+    public void OnHit(EventContext eventContext) { /* ... */ }
 
     public void TakeDamage(EventContext context)
     {

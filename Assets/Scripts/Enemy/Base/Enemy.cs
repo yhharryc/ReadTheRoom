@@ -207,7 +207,7 @@ public class Enemy : EnemyManager, IEnemyMoveable, ITriggerCheckable,IHitReceive
     {
 
     }
-    public void OnHit(HitData hitData)
+    public void OnHit(EventContext eventContext)
     {
 
     }

@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class EventContext: IStoppableContext
 {
+    public GameObject EventStarter;
     public ICharacter Source;   // The Source
     public IHitReceiver Target;     // The target being hit
 
