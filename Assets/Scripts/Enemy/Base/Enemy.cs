@@ -8,6 +8,7 @@ using System;
 public class Enemy : EnemyManager, IEnemyMoveable, ITriggerCheckable,IHitReceiver
 {
     public GameObject Owner {get{return gameObject;}}
+    public HitPartType HitPartType {get{return HitPartType.Normal;}}
     [SerializeField] protected SpriteRenderer spriteRenderer;
 
     [Header("Feedbacks")]

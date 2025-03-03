@@ -216,6 +216,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Debug",
+            "id": "22d7a8d1-a6af-4277-a48c-056e22b1fd64",
+            "actions": [
+                {
+                    "name": "RestartScene",
+                    "type": "Button",
+                    "id": "f7e34283-2681-4e58-bda0-639473e69923",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8d0b23ac-8b26-4d89-8e5c-0027fffd77a9",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RestartScene",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

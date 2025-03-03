@@ -16,7 +16,7 @@ public class EnemyHitCollider : MonoBehaviour, IHitReceiver
 {
     [Header("Hit Part Settings")]
     public HitPartType partType = HitPartType.Normal;
-
+    public HitPartType HitPartType {get{return partType;}}
 
     [Tooltip("Reference to the main EnemyManager (the root).")]
     public EnemyManager enemyManager;
@@ -41,6 +41,5 @@ public class EnemyHitCollider : MonoBehaviour, IHitReceiver
     /// </summary>
     public void OnHit(EventContext eventContext)
     {
-        
     }
 }

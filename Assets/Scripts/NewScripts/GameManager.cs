@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,5 +34,19 @@ public class GameManager : MonoBehaviour
     public void AddScore(float scoreToAdd)
     {
         CurrentScore+=scoreToAdd;
+    }
+
+    // This function can be called by SendMessage("OnRestartScene")
+    public void OnRestartScene()
+    {
+        // Suppose scene index 0 is your main menu or initial scene:
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+
+        // Alternatively, if you have a scene name for the "full restart":
+        // SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+
+        // If you also want to reset certain static variables or singletons, do so here:
+        CurrentScore = 0f;
+        // Re-initialize anything else as needed
     }
 }

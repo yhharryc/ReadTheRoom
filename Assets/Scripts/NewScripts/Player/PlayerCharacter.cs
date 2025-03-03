@@ -19,6 +19,7 @@ public class PlayerCharacter : MonoBehaviour,
     private WeaponComponent weaponComponent;
 
     public GameObject Owner { get { return gameObject; } }
+    public HitPartType HitPartType {get{return HitPartType.Normal;}}
     /// <summary>
     /// List of all Enemies currently in the player's trigger overlap.
     /// </summary>
