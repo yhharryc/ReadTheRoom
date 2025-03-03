@@ -6,7 +6,7 @@ using BehaviorDesigner.Runtime.Tasks;
 public class CheckAttackDefinition : Conditional
 {
     // The AttackDefinition to check
-    public AttackDefinition attackDef; 
+    public SharedAttackDefinition attackDef;
     // We assume you have a custom SharedVariable type or a reference
     // Or you store it in your blackboard
 
@@ -31,7 +31,7 @@ public class CheckAttackDefinition : Conditional
             hasLineOfSight = hasLineOfSight.Value,
         };
 
-        bool canAttack = attackDef.CanAttack(ctx);
+        bool canAttack = attackDef.Value.CanAttack(ctx);
         return canAttack ? TaskStatus.Success : TaskStatus.Failure;
     }
 }

@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: ZombieMelee
   damageMultiplier: 1
-  animationMotion: {fileID: -203655887218126122, guid: ea305bd0b9a40f5419b504c1af39eed5,
-    type: 3}
+  animationMotion: {fileID: 7400000, guid: 37b13651db2346e4e96bfbd523dcaf9c, type: 2}
   conditionObjects:
   - {fileID: 11400000, guid: 9e25a79b535b723428d3e0c7946e712f, type: 2}

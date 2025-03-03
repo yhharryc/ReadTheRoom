@@ -1,36 +1,37 @@
-using System;
-using UnityEngine;
-using UnityEngine.Events;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
 
 public class Room : MonoBehaviour
 {
-    [SerializeField] public List<Door> doors;
+    [Header("Room Objects")]
+    [SerializeField]
+    private List<Door> doors;  // Keeping doors as is, or you could unify them too
+    [SerializeField]
+    private List<EnemyManager> enemies;  // Now referencing the new EnemyManager
 
-    // Replaces the old `List<Enemy>` with a generic list of map objects
-    [SerializeField] public List<MapObject> enemyMapObjects;
+    [SerializeField]
+    private List<ArtifactSO> rewardList;
 
-    [SerializeField] private List<ArtifactSO> rewardList;
-
-    // Number of destroyable objects (those implementing ICharacter) left
-    private int remainingDestroyableNum;
-
+    private int remainingEnemyNum;
     public event Action<Room> OnCombatStartedInRoom;
     public event Action<Room> OnCombatEndedInRoom;
 
     private bool hasCombatEncounter = true;
     private bool isCombatActive = false;
 
-    // We’ll accumulate the total “score on destroy” from all enemyMapObjects
-    private float roomClearingScore = 0f;
+    // We remove `roomClearingScore` since we no longer rely on ScoreOnKill in EnemyManager
+    // private float roomClearingScore = 0f;
 
     void Start()
     {
-        InitializeDoors();
-        InitializeMapObjects();
+        InitializeRoomObjects();
     }
 
+    /// <summary>
+    /// Kicks off the combat scenario in this room.
+    /// </summary>
     public void StartCombat()
     {
         if (isCombatActive || !hasCombatEncounter) return;
@@ -38,49 +39,41 @@ public class Room : MonoBehaviour
 
         OnCombatStartedInRoom?.Invoke(this);
 
-        Debug.Log("Combat has started!");
+        Debug.Log($"[Room] Combat has started in '{name}'!");
     }
 
-    private void InitializeDoors()
+    /// <summary>
+    /// Subscribes the Doors and EnemyManagers to the appropriate events.
+    /// </summary>
+    private void InitializeRoomObjects()
     {
-        foreach (Door door in doors)
+        // 1) Doors
+        foreach (var door in doors)
         {
             door.Room = this;
             OnCombatStartedInRoom += door.OnCombatStartedInRoom;
             door.OnDoorFullyOpened += OnDoorFullyOpened;
-            OnCombatEndedInRoom   += door.OnDoorFullyClosed; 
-            // Or OnDoorFullyClosed if you have that event
+            OnCombatEndedInRoom += (Room r) => door.OnDoorFullyClosed();
         }
-    }
 
-    private void InitializeMapObjects()
-    {
-        // For each MapObject:
-        //  1) Subscribe to OnCombatStartedInRoom / OnCombatEndedInRoom
-        //  2) If it implements ICharacter, subscribe to OnCharacterDied
-        //  3) Accumulate ScoreOnDestroy, increment a counter
-
-        foreach (MapObject mo in enemyMapObjects)
+        // 2) Enemies (EnemyManager references)
+        foreach (var enemyManager in enemies)
         {
-            // 1) Hook the IRoomObject events
-            OnCombatStartedInRoom += mo.OnCombatStartedInRoom;
-            OnCombatEndedInRoom   += mo.OnCombatEndedInRoom;
+            // If it also implements IRoomObject, you could do:
+            OnCombatStartedInRoom += enemyManager.OnCombatStartedInRoom;
+            OnCombatEndedInRoom   += enemyManager.OnCombatEndedInRoom;
 
-            // 2) If the object is also an ICharacter => it can die
-            if (mo is ICharacter characterObj)
-            {
-                characterObj.OnCharacterDied += OnMapObjectDied;
-
-                // 3) Accumulate its ScoreOnDestroy
-                roomClearingScore += mo.ScoreOnDestroy;
-                remainingDestroyableNum++;
-            }
+            // If it’s an ICharacter, we can track death:
+            enemyManager.OnCharacterDied += OnEnemyManagerDied;
         }
+
+        remainingEnemyNum = enemies.Count;
+        Debug.Log($"[Room] Initialized {doors.Count} doors, {remainingEnemyNum} enemies in '{name}'");
     }
 
     private void OnDoorFullyOpened()
     {
-        // Delay the actual StartCombat call
+        // Optionally, we wait 1 second to start combat
         StartCoroutine(DelayedStartCombat());
     }
 
@@ -90,46 +83,37 @@ public class Room : MonoBehaviour
         StartCombat();
     }
 
-    private void OnMapObjectDied(ICharacter dyingCharacter)
+    /// <summary>
+    /// Called when an EnemyManager’s OnCharacterDied event fires.
+    /// We reduce the count, check if the room is cleared, etc.
+    /// </summary>
+    private void OnEnemyManagerDied(ICharacter dyingCharacter)
     {
-        // Unsubscribe so we don’t get repeated calls
-        dyingCharacter.OnCharacterDied -= OnMapObjectDied;
+        dyingCharacter.OnCharacterDied -= OnEnemyManagerDied;
 
-        // We know we stored them as `MapObject`, so cast:
-        var mo = dyingCharacter as MapObject;
-        if (mo != null)
-        {
-            remainingDestroyableNum--;
-            Debug.Log($"{mo.name} died/destroyed. Remaining: {remainingDestroyableNum}");
-        }
-        else
-        {
-            Debug.LogWarning("Tried to remove a non-MapObject from the list.");
-        }
+        // If we want to confirm it's actually in our 'enemies' list, we can do so.
+        // For now we just reduce the counter:
+        remainingEnemyNum--;
+        Debug.Log($"[Room] An EnemyManager died in '{name}'. Enemies left: {remainingEnemyNum}");
 
-        // If no more destroyable objects remain, the room is cleared
-        if (remainingDestroyableNum == 0)
+        if (remainingEnemyNum <= 0)
         {
-            Debug.Log("Room is Cleared!");
+            Debug.Log($"[Room] Room '{name}' is cleared!");
             OnCombatEndedInRoom?.Invoke(this);
-            GameManager.Instance.AddScore(roomClearingScore);
+            // If you used to do something like AddScore(roomClearingScore), remove or replace that logic
         }
     }
 
-    // If you need a method to add new map objects at runtime:
-    public void AddMapObject(MapObject mo)
+    /// <summary>
+    /// Dynamically adds an EnemyManager to the room at runtime.
+    /// </summary>
+    public void AddEnemyToRoom(EnemyManager newEnemy)
     {
-        // Hook up events
-        OnCombatStartedInRoom += mo.OnCombatStartedInRoom;
-        OnCombatEndedInRoom   += mo.OnCombatEndedInRoom;
+        if (newEnemy == null) return;
+        enemies.Add(newEnemy);
+        newEnemy.OnCharacterDied += OnEnemyManagerDied;
 
-        if (mo is ICharacter characterObj)
-        {
-            characterObj.OnCharacterDied += OnMapObjectDied;
-            roomClearingScore += mo.ScoreOnDestroy;
-            remainingDestroyableNum++;
-        }
-
-        enemyMapObjects.Add(mo);
+        remainingEnemyNum++;
+        Debug.Log($"[Room] EnemyManager '{newEnemy.name}' added to '{name}'. Total: {remainingEnemyNum}");
     }
 }

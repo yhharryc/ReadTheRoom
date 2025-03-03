@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using MoreMountains.Feedbacks;
 using System;
 
-public class Enemy : MonoBehaviour, IEnemyMoveable, ITriggerCheckable,ICharacter,IHitReceiver,IRoomObject
+public class Enemy : EnemyManager, IEnemyMoveable, ITriggerCheckable,IHitReceiver
 {
     public GameObject Owner {get{return gameObject;}}
     [SerializeField] protected SpriteRenderer spriteRenderer;

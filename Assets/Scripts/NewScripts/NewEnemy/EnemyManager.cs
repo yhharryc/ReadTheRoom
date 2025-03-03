@@ -1,27 +1,20 @@
-using System;
 using UnityEngine;
+using BehaviorDesigner.Runtime; // Required for BehaviorTree, SharedVariable, etc.
 
-/// <summary>
-/// EnemyManager serves as the main script on the Enemy root object.
-/// It merges "basic stats & health logic" with references to the 
-/// ability system (for attribute sets) and the death flow.
-/// </summary>
-public class EnemyManager : MonoBehaviour, ICharacter
+public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 {
     [Header("Ability System / Stats")]
     [SerializeField] private AbilitySystemComponent abilitySystemComponent;
-    [SerializeField] private CharacterAttributeSet enemyAttributeSet; 
-    // e.g. Health, MaxHealth, Damage fields in that attribute set
+    [SerializeField] private CharacterAttributeSet enemyAttributeSet;
 
-    // Optionally track if we've died
+    // Add a reference to the Behavior Designer tree
+    [Header("Behavior Tree")]
+    [SerializeField] private BehaviorTree behaviorTree;
+
     private bool isDead = false;
+    public event System.Action<ICharacter> OnCharacterDied;
 
-    // Public event for the outside world to know we died
-    public event Action<ICharacter> OnCharacterDied;
-
-    public Faction Faction => Faction.ENEMY; // we define the enemy's factionw
-
-
+    public Faction Faction => Faction.ENEMY;
 
     private void Awake()
     {
@@ -31,44 +24,28 @@ public class EnemyManager : MonoBehaviour, ICharacter
         if (enemyAttributeSet == null && abilitySystemComponent != null)
             enemyAttributeSet = abilitySystemComponent.AttributeSet as CharacterAttributeSet;
 
-        // Initialize from the attribute set if needed
         if (enemyAttributeSet != null)
         {
-            // For example, if we want to set current Health from base Health
             float currentHealth = enemyAttributeSet.Health.CurrentValue;
             float maxHealth = enemyAttributeSet.MaxHealth.CurrentValue;
             Debug.Log($"Enemy initial Health = {currentHealth}/{maxHealth}");
         }
     }
 
-    #region IHitReceiver / ICharacter Implementation
+    // ---------------------------------------------
+    // ICharacter / IHitReceiver Implementation
+    // ---------------------------------------------
+    public void OnHit(HitData hitData) { /* ... */ }
 
-    public void OnHit(HitData hitData)
-    {
-        // If you have logic that uses hitData for partial absorption or something, do it here
-        // e.g. float finalDamage = SomeDamageReductionCheck(hitData.FinalDamage);
-        // But typically you'd rely on the "TakeDamage(EventContext)" approach as well.
-    }
-
-    // This is the "TakeDamage" from ICharacter. 
-    // We'll read from abilitySystem or attribute set to adjust health
     public void TakeDamage(EventContext context)
     {
-        if (isDead) return; // ignore further damage
+        if (isDead) return;
 
-        float damageAmount = context.HitData.FinalDamage;
-
-        // We'll get the current HP from the attribute set
+        float dmg = context.HitData.FinalDamage;
         float oldHP = enemyAttributeSet.Health.CurrentValue;
-        float newHP = oldHP - damageAmount;
+        float newHP = oldHP - dmg;
 
-        // We can pass this through the ability system to do clamping or trigger Pre/Post changes
-        // or we can do direct changes on the GameplayAttribute:
-        enemyAttributeSet.Health.BaseValue = newHP; 
-        // The attribute set or ability system might automatically clamp it
-        // if you have hooking logic in PreAttributeChange.
-
-        Debug.Log($"[EnemyManager] Took {damageAmount} damage. HP from {oldHP} => {newHP}");
+        enemyAttributeSet.Health.BaseValue = newHP;
 
         if (newHP <= 0f && !isDead)
         {
@@ -81,16 +58,14 @@ public class EnemyManager : MonoBehaviour, ICharacter
         if (isDead) return;
         float oldHP = enemyAttributeSet.Health.CurrentValue;
         float newHP = oldHP - damage;
-
         enemyAttributeSet.Health.BaseValue = newHP;
 
         if (newHP <= 0f && !isDead)
         {
-            Die(); 
+            Die();
         }
     }
 
-    // Because ICharacter has "AddHealth(float amount)"
     public void AddHealth(float amount)
     {
         if (isDead) return;
@@ -99,43 +74,55 @@ public class EnemyManager : MonoBehaviour, ICharacter
         enemyAttributeSet.Health.BaseValue = newHP;
     }
 
-    public float Health => enemyAttributeSet != null 
-        ? enemyAttributeSet.Health.CurrentValue 
-        : 0f;
+    public float Health => enemyAttributeSet != null ? enemyAttributeSet.Health.CurrentValue : 0f;
+    public float MaxHealth => enemyAttributeSet != null ? enemyAttributeSet.MaxHealth.CurrentValue : 100f;
 
-    public float MaxHealth => enemyAttributeSet != null
-        ? enemyAttributeSet.MaxHealth.CurrentValue
-        : 100f;
-
-    // If we must implement "Die()" from ICharacter:
     public void Die()
     {
         Die(null);
     }
 
-    #endregion
-
-    /// <summary>
-    /// Called internally if we want the context for the final blow
-    /// (maybe to pass a reference for awarding XP or kill credit).
-    /// </summary>
     private void Die(EventContext context = null)
     {
         if (isDead) return;
         isDead = true;
+        Debug.Log($"[EnemyManager] {name} died.");
 
-        Debug.Log($"[EnemyManager] Enemy {name} died.");
-
-        // Fire event for outside listeners
         OnCharacterDied?.Invoke(this);
-
-        // disable or destroy
-        // Destroy(gameObject);
         gameObject.SetActive(false);
     }
 
     public AbilitySystemComponent GetAbilitySystemComponent()
     {
         return abilitySystemComponent;
+    }
+
+    // ---------------------------------------------
+    // IRoomObject Implementation
+    // ---------------------------------------------
+    public void OnCombatStartedInRoom(Room room)
+    {
+        
+        // 1) If we have a BehaviorTree, set the "IsCombatStarted" variable to true
+        if (behaviorTree != null)
+        {
+            // Approach A: Using SetVariableValue (no cast needed):
+            behaviorTree.SetVariableValue("IsCombatStarted", true);
+
+            // Approach B: Or you can do a direct cast to SharedBool:
+            // var isCombatStartedVar = behaviorTree.GetVariable("IsCombatStarted") as SharedBool;
+            // if (isCombatStartedVar != null) {
+            //     isCombatStartedVar.Value = true;
+            // }
+        }
+    }
+
+    public void OnCombatEndedInRoom(Room room)
+    {
+        // If you want to reset it to false on combat end:
+        if (behaviorTree != null)
+        {
+            behaviorTree.SetVariableValue("IsCombatStarted", false);
+        }
     }
 }

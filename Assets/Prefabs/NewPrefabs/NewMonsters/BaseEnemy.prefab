@@ -709,7 +709,6 @@ GameObject:
   - component: {fileID: 969279395514591516}
   - component: {fileID: 9106414633374861125}
   - component: {fileID: 7371253023148817933}
-  - component: {fileID: 1660708975536630728}
   m_Layer: 14
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -748,6 +747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilitySystemComponent: {fileID: 176617788372615032}
   enemyAttributeSet: {fileID: 1117805924704922966}
+  behaviorTree: {fileID: 7371253023148817933}
 --- !u!114 &176617788372615032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -798,7 +798,7 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 1.4
   m_BaseOffset: 0
   m_WalkableMask: 1
@@ -862,7 +862,7 @@ MonoBehaviour:
   startWhenEnabled: 1
   asynchronousLoad: 0
   pauseWhenDisabled: 0
-  restartWhenComplete: 0
+  restartWhenComplete: 1
   logTaskChanges: 0
   group: 0
   resetValuesOnRestart: 0
@@ -892,46 +892,6 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.7.12
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
---- !u!114 &1660708975536630728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6932316613829653064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startWhenEnabled: 1
-  asynchronousLoad: 0
-  pauseWhenDisabled: 0
-  restartWhenComplete: 0
-  logTaskChanges: 0
-  group: 0
-  resetValuesOnRestart: 0
-  externalBehavior: {fileID: 0}
-  mBehaviorSource:
-    behaviorName: Behavior
-    behaviorDescription: 
-    mTaskData:
-      types: []
-      parentIndex: 
-      startIndex: 
-      variableStartIndex: 
-      JSONSerialization: 
-      fieldSerializationData:
-        typeName: []
-        fieldNameHash: 
-        startIndex: 
-        dataPosition: 
-        unityObjects: []
-        byteData: 
-        byteDataArray: 
-      Version: 
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
 --- !u!1 &7202605543267214138
