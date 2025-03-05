@@ -56,7 +56,7 @@ public class EnemyAttackSingleStraightFireBlast : EnemyAttackSOBase
                 // The AI character is the "Source" of the attack
                 Source = enemy, 
 
-                AttackInfo = new AttackData
+                AttackData = new AttackData
                 {
                     BaseDamage = 10f,         // or set from some stat
                     AmmoType = "Fireblast",   // optional: thematic label
@@ -70,7 +70,7 @@ public class EnemyAttackSingleStraightFireBlast : EnemyAttackSOBase
             if (projectile != null)
             {
                 // Pass the same context + direction so the projectile 
-                // can reference AttackInfo when it hits the target
+                // can reference AttackData when it hits the target
                 projectile.Setup(attackContext, direction);
             }
 

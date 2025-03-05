@@ -231,7 +231,7 @@ public class Enemy : EnemyManager, IEnemyMoveable, ITriggerCheckable,IHitReceive
             // The AI character is the "Source" of the attack
             Source = this, 
             Target = playerCharacter,
-            AttackInfo = new AttackData
+            AttackData = new AttackData
             {
                 BaseDamage = 10f,         // or set from some stat
             }

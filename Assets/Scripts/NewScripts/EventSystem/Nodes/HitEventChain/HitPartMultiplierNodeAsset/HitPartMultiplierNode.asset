@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ba7e97d47722494797315ecee443c4f, type: 3}
-  m_Name: DamageCalculationNode
+  m_Script: {fileID: 11500000, guid: 3738aa97a4a86c24ca9acd3d3d0d0e68, type: 3}
+  m_Name: HitPartMultiplierNode
   m_EditorClassIdentifier: 
   priority: 0
+  weakPointMultiplier: 1.5
+  armoredMultiplier: 0.3

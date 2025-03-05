@@ -578,6 +578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3429429663868442110}
   - component: {fileID: 1242375363105218772}
+  - component: {fileID: 2844074524682631624}
   m_Layer: 0
   m_Name: LegHitArea
   m_TagString: Untagged
@@ -623,6 +624,20 @@ CapsuleCollider:
   m_Height: 0.75
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2844074524682631624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3788817247424785753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cdfca5bcdd8334e806a09c0b223e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partType: 0
+  enemyManager: {fileID: 7162580061781786120}
 --- !u!1 &6161997892561796788
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,6 +940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4160888002053927505}
   - component: {fileID: 8500025041413402698}
+  - component: {fileID: 3345328618652316927}
   m_Layer: 0
   m_Name: LegHitArea
   m_TagString: Untagged
@@ -970,6 +986,20 @@ CapsuleCollider:
   m_Height: 0.75
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3345328618652316927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7202605543267214138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2cdfca5bcdd8334e806a09c0b223e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partType: 0
+  enemyManager: {fileID: 7162580061781786120}
 --- !u!1001 &6199609885588348978
 PrefabInstance:
   m_ObjectHideFlags: 0

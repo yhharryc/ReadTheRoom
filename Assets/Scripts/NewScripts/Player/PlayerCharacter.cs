@@ -617,7 +617,7 @@ public class PlayerCharacter : MonoBehaviour,
         {
             Source = this,  // The player pushing
             Target = closestReceiver,
-            AttackInfo = new AttackData
+            AttackData = new AttackData
             {
                 PushType      = pushType,
                 BaseDamage    = 0f,   // No damage

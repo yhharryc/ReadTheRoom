@@ -61,13 +61,13 @@ public class AttackDefinition : ScriptableObject
         var ctx = new EventContext {
             Source = source,
             Target = target as IHitReceiver,  // Must cast to IHitReceiver
-            AttackInfo = new AttackData {
+            AttackData = new AttackData {
                 BaseDamage = finalDamage,
                 // Optionally fill in other fields (AmmoType, PushType, etc.)
             },
             HitData = new HitData {
                 // FinalDamage often computed later in the chain, 
-                // but we can set 0f as placeholder or mirror AttackInfo.
+                // but we can set 0f as placeholder or mirror AttackData.
                 FinalDamage = finalDamage,
             }
         };

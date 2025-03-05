@@ -210,7 +210,7 @@ public class RangedWeaponItem : WeaponItem, IAmmoDisplayEquipment {
         Vector3 forwardDir = GetMuzzleForwardDirection();
         EventContext context = new EventContext {
             Source = user,
-            AttackInfo = new AttackData {
+            AttackData = new AttackData {
                 BaseDamage = this.Damage,
                 AmmoType = this.AmmoType,
             }
@@ -218,8 +218,8 @@ public class RangedWeaponItem : WeaponItem, IAmmoDisplayEquipment {
         };
         
         EventChainManager.Instance.ExecuteAttackChain(ref context);
-        //Debug.LogError(this.Damage+" "+context.AttackInfo.BaseDamage);
-        if (context.AttackInfo.ProjectilePrefab == null) {
+        //Debug.LogError(this.Damage+" "+context.AttackData.BaseDamage);
+        if (context.AttackData.ProjectilePrefab == null) {
             PerformHitscanShot(context);
         }
         else {
@@ -318,7 +318,7 @@ private void PerformHitscanShot(EventContext context)
         Vector3 finalProjectileDir = ApplyAccuracySpread(forwardDir, accuracyValue);
 
         // Instantiate projectile
-        var projObj = GameObject.Instantiate(context.AttackInfo.ProjectilePrefab, muzzlePos, Quaternion.LookRotation(forwardDir));
+        var projObj = GameObject.Instantiate(context.AttackData.ProjectilePrefab, muzzlePos, Quaternion.LookRotation(forwardDir));
         //Debug.Log($"Spawned projectile rotation = {projObj.transform.eulerAngles}");
         Projectile projectile = projObj.GetComponent<Projectile>();
         if (projectile != null)

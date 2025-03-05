@@ -19,13 +19,13 @@ public class SetDefaultProjectileNode : IEventNode<EventContext>
     public void Process(EventContext context) {
 
         //
-        if (context == null || context.AttackInfo == null) 
+        if (context == null || context.AttackData == null) 
         {
             
             return;
         }
         
-        context.AttackInfo.ProjectilePrefab=ProjectilePrefab;
+        context.AttackData.ProjectilePrefab=ProjectilePrefab;
         
     }
 }

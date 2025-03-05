@@ -91,7 +91,7 @@ public class EyeMonster : Enemy
             // The AI character is the "Source" of the attack
             Source = this, 
             Target = playerCharacter,
-            AttackInfo = new AttackData
+            AttackData = new AttackData
             {
                 BaseDamage = 10f,         // or set from some stat
                 ProjectilePrefab = FireBlastPrefab.gameObject,
@@ -105,7 +105,7 @@ public class EyeMonster : Enemy
             if (projectile != null)
             {
                 // Pass the same context + direction so the projectile 
-                // can reference AttackInfo when it hits the target
+                // can reference AttackData when it hits the target
                 projectile.Setup(attackContext, direction);
             }
         CloseEye();

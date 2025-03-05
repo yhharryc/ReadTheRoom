@@ -8,7 +8,7 @@ public class HandleHitReceiverNode : IEventNode<EventContext>
     public int Priority => -1000;
 
     public void Process(EventContext context) {
-        if (context == null || context.AttackInfo == null || context.HitData == null) return;
+        if (context == null || context.AttackData == null || context.HitData == null) return;
 
         //TODO: Handle Hit VFX or SFX with the respective HitReceiver
         //Break the hit event chain if there is no ICharacter attached. (Could also add logic for hit on intractable objects like explosion barrels)

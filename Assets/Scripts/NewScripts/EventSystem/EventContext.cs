@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// Used to pass context data related to attacks and hits.
-/// In the AttackEventChain, the focus is on AttackInfo, while in the HitEventChain, the focus is on HitInfo.
+/// In the AttackEventChain, the focus is on AttackData, while in the HitEventChain, the focus is on HitInfo.
 /// However, for consistency, EventContext can be shared between Attack and Hit executions.
 /// </summary>
 public class EventContext: IStoppableContext
@@ -12,7 +12,7 @@ public class EventContext: IStoppableContext
     public ICharacter Source;   // The Source
     public IHitReceiver Target;     // The target being hit
 
-    public AttackData AttackInfo; // Data related to the attack (type, base damage, ammo type, etc.)
+    public AttackData AttackData; // Data related to the attack (type, base damage, ammo type, etc.)
     public HitData HitData;       // Data related to the hit (final damage, hit type, status effects, etc.)
 
     public bool ShouldContinue { get; set; } = true; // Flag to control execution of the chain
