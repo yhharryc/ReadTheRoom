@@ -415,7 +415,10 @@ public class PlayerCharacter : MonoBehaviour,
     }
 
     public void OnHit(EventContext eventContext) { }
-
+    public void Stagger(EventContext context)
+    {
+        //TODO: Player Stagger
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -428,7 +431,10 @@ public class PlayerCharacter : MonoBehaviour,
             }
         }
     }
-
+    public void TakeStaggerDamage(EventContext context)
+    {
+        
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
@@ -621,7 +627,7 @@ public class PlayerCharacter : MonoBehaviour,
             {
                 PushType      = pushType,
                 BaseDamage    = 0f,   // No damage
-                PushStagger   = 5f,   // Some push "strength"
+                StaggerPower   = 5f,   // Some push "strength"
                 PushDirection = pushDir
             },
             HitData = new HitData

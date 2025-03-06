@@ -50,7 +50,7 @@ MonoBehaviour:
   initialHitNodes:
   - {fileID: 11400000, guid: 8a891402cca003f44ac3b4f68a590aa7, type: 2}
   - {fileID: 11400000, guid: 729460967146bf046a7f2cb43fe499c4, type: 2}
+  - {fileID: 11400000, guid: bbca92e9ef66afd4fb048c26d64c1420, type: 2}
   - {fileID: 11400000, guid: 5e45be51e87a38c41ba8bed795d3011f, type: 2}
   - {fileID: 11400000, guid: 6a5935f49d5f82f45b9ddcfe6ea7dc24, type: 2}
-  - {fileID: 11400000, guid: bbca92e9ef66afd4fb048c26d64c1420, type: 2}
   initialCharacterDiedEventNodes: []

@@ -9,9 +9,15 @@ AnimatorOverrideController:
   m_Name: AnimOC_Zombie
   m_Controller: {fileID: 9100000, guid: 9a4b36ea345615c428614cb1e39b794a, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: -203655887218126122, guid: ea305bd0b9a40f5419b504c1af39eed5,
-      type: 3}
-    m_OverrideClip: {fileID: -203655887218126122, guid: ea305bd0b9a40f5419b504c1af39eed5,
-      type: 3}
   - m_OriginalClip: {fileID: 7400000, guid: 304764f970ec7cb489303d2ae9358017, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 304764f970ec7cb489303d2ae9358017, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e70cbe5e52ba9c147a2d3c2dd9db73fe, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 072083c68cc85914ab10830bcd296159, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 669fb0941b29bdd4eb4b02a3a7f23897, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 669fb0941b29bdd4eb4b02a3a7f23897, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 37b13651db2346e4e96bfbd523dcaf9c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 37b13651db2346e4e96bfbd523dcaf9c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7cf9c50684e7cd445b4389a8af8f475d, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7cf9c50684e7cd445b4389a8af8f475d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: a5480e5e501aaf24993f357af2df1374, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a5480e5e501aaf24993f357af2df1374, type: 2}

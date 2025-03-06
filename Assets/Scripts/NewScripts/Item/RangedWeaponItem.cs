@@ -213,6 +213,7 @@ public class RangedWeaponItem : WeaponItem, IAmmoDisplayEquipment {
             AttackData = new AttackData {
                 BaseDamage = this.Damage,
                 AmmoType = this.AmmoType,
+                StaggerPower = 2f,
             }
             
         };

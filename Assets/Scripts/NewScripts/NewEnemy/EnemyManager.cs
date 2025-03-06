@@ -11,6 +11,8 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     [Header("Behavior Tree")]
     [SerializeField] private BehaviorTree behaviorTree;
 
+    private Animator animator;
+
     private bool isDead = false;
     public event System.Action<ICharacter> OnCharacterDied;
 
@@ -30,17 +32,27 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
             float maxHealth = enemyAttributeSet.MaxHealth.CurrentValue;
             Debug.Log($"Enemy initial Health = {currentHealth}/{maxHealth}");
         }
+        animator = GetComponent<Animator>();
     }
-
+    private void Update()
+    {
+        animator.SetFloat("WalkSpeed", 1.2f);
+        
+    }
     // ---------------------------------------------
     // ICharacter / IHitReceiver Implementation
     // ---------------------------------------------
-    public void OnHit(EventContext eventContext) { /* ... */ }
+    public void OnHit(EventContext eventContext) { 
+        if(isDead)return;
+        TakeDamage(eventContext);
+        
+        TakeStaggerDamage(eventContext);
+
+    }
 
     public void TakeDamage(EventContext context)
     {
-        if (isDead) return;
-
+        //if (isDead) return;
         float dmg = context.HitData.FinalDamage;
         float oldHP = enemyAttributeSet.Health.CurrentValue;
         float newHP = oldHP - dmg;
@@ -55,7 +67,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 
     public void TakeDamage(float damage)
     {
-        if (isDead) return;
+        //if (isDead) return;
         float oldHP = enemyAttributeSet.Health.CurrentValue;
         float newHP = oldHP - damage;
         enemyAttributeSet.Health.BaseValue = newHP;
@@ -64,6 +76,29 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         {
             Die();
         }
+    }
+
+    public void TakeStaggerDamage(EventContext context)
+    {
+        
+        float oldStagger = enemyAttributeSet.Stagger.CurrentValue;
+        float newStagger = oldStagger - context.HitData.FinalStagger;
+        //TODO: Stagger multiplier based on enemy state.
+
+        enemyAttributeSet.Stagger.BaseValue = newStagger;
+        if (newStagger <= 0f &&!isDead)
+        {
+            Stagger(context);
+        }
+    }
+    
+    public void Stagger(EventContext context)
+    {
+        //TODO:Stagger for enemy
+        if (animator != null) {
+            //animator.SetTrigger("StaggerTrigger");
+        }
+        behaviorTree.SetVariableValue("IsStaggered", true);
     }
 
     public void AddHealth(float amount)
@@ -124,5 +159,10 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         {
             behaviorTree.SetVariableValue("IsCombatStarted", false);
         }
+    }
+
+    public virtual float GetStaggerMultiplier(EventContext context)
+    {
+        return 1f;
     }
 }

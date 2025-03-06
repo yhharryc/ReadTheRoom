@@ -10,7 +10,7 @@ public class StaggerDamageNode : IEventNode<EventContext>
 
         // Suppose we track stagger in AttackData as well:
         // e.g., context.AttackData.StaggerAmount or something
-        float baseStagger = context.AttackData.PushStagger;
+        float baseStagger = context.AttackData.StaggerPower;
         float finalStagger = baseStagger;
 
         // If it’s a weakpoint, double it
@@ -24,13 +24,14 @@ public class StaggerDamageNode : IEventNode<EventContext>
         if (context.AttackData.PushType > 0) {
             // For demonstration: if the enemy manager says IsVulnerable => 2x
             var enemyMgr = context.Target?.Owner.GetComponent<EnemyManager>();
-            //if (enemyMgr != null && enemyMgr.SomeCheckIfVulnerable()) {
-            //    finalStagger *= 2f;
-            //}
+            
+            if (enemyMgr != null) {
+               finalStagger *= enemyMgr.GetStaggerMultiplier(context);
+            }
         }
 
         // Then store finalStagger in AttackData or in HitData, 
-        // e.g. context.HitData.StaggerValue = finalStagger;
+        context.HitData.FinalStagger = finalStagger;
 
         Debug.Log($"[StaggerDamageNode] baseStagger={baseStagger}, finalStagger={finalStagger}");
     }

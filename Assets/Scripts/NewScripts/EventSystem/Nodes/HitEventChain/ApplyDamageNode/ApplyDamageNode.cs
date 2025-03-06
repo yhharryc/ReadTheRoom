@@ -16,8 +16,9 @@ public class ApplyDamageNode : IEventNode<EventContext>
         // Pass the final damage via context. 
         // The character uses context.HitData.FinalDamage internally.
         character.TakeDamage(context);
-
+        character.TakeStaggerDamage(context);
+        //Debug.LogError("????????????");
         // Also call OnHit to let the IHitReceiver do any local logic
-        context.Target.OnHit(context);
+        //context.Target.Owner.OnHit(context);
     }
 }

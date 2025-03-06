@@ -12,6 +12,8 @@ public interface ICharacter {
     void AddHealth(float amount);
     void TakeDamage(EventContext context);
     void Die();
+    void Stagger(EventContext context);
+    public void TakeStaggerDamage(EventContext context);
     
     public AbilitySystemComponent GetAbilitySystemComponent();
 
