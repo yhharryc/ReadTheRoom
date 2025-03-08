@@ -5,6 +5,8 @@ using Unity.Behavior;
 
 public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 {
+
+
     [Header("Ability System / Stats")]
     [SerializeField] private AbilitySystemComponent abilitySystemComponent;
     [SerializeField] private CharacterAttributeSet enemyAttributeSet;
@@ -123,6 +125,15 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         //TODO: Remove behavior tree stagger
         behaviorTree.SetVariableValue("IsStaggered", true);
         BehaviorGraph.BlackboardReference.SetVariableValue("IsStaggered",true);
+    }
+
+    public void OnAnimationCheckHit()
+    {
+        
+        if (behaviorGraph.BlackboardReference.GetVariableValue("CheckHitEvent",out CheckHit eventValue))
+        {
+            eventValue.SendEventMessage(gameObject);
+        }
     }
 
     public void KnockDown()
