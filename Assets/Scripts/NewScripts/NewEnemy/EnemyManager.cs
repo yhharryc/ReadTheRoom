@@ -1,6 +1,5 @@
 using UnityEngine;
 using Unity.Behavior;
-using BehaviorDesigner.Runtime; // Required for BehaviorTree, SharedVariable, etc.
 using Unity.Behavior;  
 
 public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
@@ -10,12 +9,6 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     [Header("Ability System / Stats")]
     [SerializeField] private AbilitySystemComponent abilitySystemComponent;
     [SerializeField] private CharacterAttributeSet enemyAttributeSet;
-
-    // Add a reference to the Behavior Designer tree
-    [Header("Behavior Tree")]
-    [SerializeField] private BehaviorTree behaviorTree;
-
-    public BehaviorTree BehaviorTree{get {return behaviorTree;}}
 
     private BehaviorGraph behaviorGraph;
     public BehaviorGraph BehaviorGraph{get {return behaviorGraph;}}
@@ -121,9 +114,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     }
     
     public void Stagger(EventContext context)
-    {
-        //TODO: Remove behavior tree stagger
-        behaviorTree.SetVariableValue("IsStaggered", true);
+    {      
         BehaviorGraph.BlackboardReference.SetVariableValue("IsStaggered",true);
     }
 
@@ -147,8 +138,6 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     public void RecoverFromKnockDown()
     {
         enemyAttributeSet.Stagger.BaseValue = enemyAttributeSet.MaxStagger.CurrentValue;
-        //TODO: Remove behavior tree stagger
-        behaviorTree.SetVariableValue("IsStaggered", false);
         BehaviorGraph.BlackboardReference.SetVariableValue("IsStaggered",false);
         animator.SetBool("KnockedDown", false);
     }
@@ -190,30 +179,11 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     public void OnCombatStartedInRoom(Room room)
     {
         
-        // 1) If we have a BehaviorTree, set the "IsCombatStarted" variable to true
-        if (behaviorTree != null)
-        {
-            // Approach A: Using SetVariableValue (no cast needed):
-            behaviorTree.SetVariableValue("IsCombatStarted", true);
-            
-
-            // Approach B: Or you can do a direct cast to SharedBool:
-            // var isCombatStartedVar = behaviorTree.GetVariable("IsCombatStarted") as SharedBool;
-            // if (isCombatStartedVar != null) {
-            //     isCombatStartedVar.Value = true;
-            // }
-        }
         BehaviorGraph.BlackboardReference.SetVariableValue("IsCombatStarted", true);
     }
 
     public void OnCombatEndedInRoom(Room room)
     {
-        // If you want to reset it to false on combat end:
-        if (behaviorTree != null)
-        {
-            behaviorTree.SetVariableValue("IsCombatStarted", false);
-        }
-
         BehaviorGraph.BlackboardReference.SetVariableValue("IsCombatStarted", false);
     }
 
