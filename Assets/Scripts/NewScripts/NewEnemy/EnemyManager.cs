@@ -11,6 +11,8 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     [Header("Behavior Tree")]
     [SerializeField] private BehaviorTree behaviorTree;
 
+    public BehaviorTree BehaviorTree{get {return behaviorTree;}}
+
     private Animator animator;
 
     private bool isDead = false;
@@ -99,6 +101,21 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
             //animator.SetTrigger("StaggerTrigger");
         }
         behaviorTree.SetVariableValue("IsStaggered", true);
+    }
+
+    public void KnockDown()
+    {
+        if (animator != null) {
+            animator.SetBool("KnockedDown", true);
+        }
+        
+    }
+
+    public void RecoverFromStagger()
+    {
+        Debug.LogError("???????");
+        enemyAttributeSet.Stagger.BaseValue = enemyAttributeSet.MaxStagger.CurrentValue;
+        behaviorTree.SetVariableValue("IsStaggered", false);
     }
 
     public void AddHealth(float amount)

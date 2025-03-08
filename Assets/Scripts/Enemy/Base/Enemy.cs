@@ -159,7 +159,7 @@ public class Enemy : EnemyManager, IEnemyMoveable, ITriggerCheckable,IHitReceive
 
     public void MoveEnemy(Vector3 velocity)
     {
-        RB.velocity = velocity;
+        RB.linearVelocity = velocity;
     }
 
     #endregion
