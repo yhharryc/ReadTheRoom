@@ -20,6 +20,7 @@ public class AttackDefinition : ScriptableObject
     [SerializeField]
     private List<ScriptableObject> conditionObjects;
 
+
     /// <summary>
     /// Evaluates whether all the attached IAttackCondition objects pass.
     /// </summary>

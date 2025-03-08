@@ -1,10 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-/// A simple StateMachineBehaviour that calls enemyManager.RecoverFromKnockDown() on exit.
-/// Attach this to the appropriate state in the Animator (e.g. the Stagger/Recover state).
+
 /// </summary>
-public class EnemyStateBehaviorRecover : StateMachineBehaviour
+public class EnemyStateBehaviorStagger : StateMachineBehaviour
 {
     private EnemyManager enemyManager;
 
@@ -17,7 +16,7 @@ public class EnemyStateBehaviorRecover : StateMachineBehaviour
             enemyManager = animator.GetComponentInParent<EnemyManager>();
             if (enemyManager == null)
             {
-                Debug.LogWarning($"[EnemyStateBehaviorRecover] Could not find EnemyManager in parent of {animator.gameObject.name}.");
+                Debug.LogWarning($"[EnemyStateBehaviorStagger] Could not find EnemyManager in parent of {animator.gameObject.name}.");
             }
         }
     }
@@ -25,10 +24,9 @@ public class EnemyStateBehaviorRecover : StateMachineBehaviour
     // Called when the state machine transitions *out* of this state
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Trigger the “recover” logic on the manager
-        if (enemyManager != null)
+        if (!enemyManager.IsKnockedDown)
         {
-            enemyManager.RecoverFromKnockDown();
+
         }
     }
 }

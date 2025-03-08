@@ -1,5 +1,7 @@
 using UnityEngine;
+using Unity.Behavior;
 using BehaviorDesigner.Runtime; // Required for BehaviorTree, SharedVariable, etc.
+using Unity.Behavior;  
 
 public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 {
@@ -13,12 +15,17 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 
     public BehaviorTree BehaviorTree{get {return behaviorTree;}}
 
+    private BehaviorGraph behaviorGraph;
+    public BehaviorGraph BehaviorGraph{get {return behaviorGraph;}}
+
     private Animator animator;
 
     private bool isDead = false;
     public event System.Action<ICharacter> OnCharacterDied;
 
     public Faction Faction => Faction.ENEMY;
+
+    public bool IsKnockedDown {get{return animator.GetBool("KnockedDown");}}
 
     private void Awake()
     {
@@ -35,12 +42,29 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
             Debug.Log($"Enemy initial Health = {currentHealth}/{maxHealth}");
         }
         animator = GetComponent<Animator>();
+
+    }
+
+    protected virtual void Start() {
+        behaviorGraph = GetComponent<BehaviorGraphAgent>().Graph;
+        if (behaviorGraph != null)
+        {
+            InitializeBehaviorGraph();
+        }
     }
     private void Update()
     {
         animator.SetFloat("WalkSpeed", 1.2f);
         
     }
+
+    public virtual void InitializeBehaviorGraph()
+    {
+        behaviorGraph.BlackboardReference.SetVariableValue("Animator", animator);
+        behaviorGraph.BlackboardReference.SetVariableValue("PlayerObject",GameManager.Instance.PlayerCharacter.gameObject);
+        
+    }
+
     // ---------------------------------------------
     // ICharacter / IHitReceiver Implementation
     // ---------------------------------------------
@@ -96,11 +120,9 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     
     public void Stagger(EventContext context)
     {
-        //TODO:Stagger for enemy
-        if (animator != null) {
-            //animator.SetTrigger("StaggerTrigger");
-        }
+        //TODO: Remove behavior tree stagger
         behaviorTree.SetVariableValue("IsStaggered", true);
+        BehaviorGraph.BlackboardReference.SetVariableValue("IsStaggered",true);
     }
 
     public void KnockDown()
@@ -111,11 +133,13 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         
     }
 
-    public void RecoverFromStagger()
+    public void RecoverFromKnockDown()
     {
-        Debug.LogError("???????");
         enemyAttributeSet.Stagger.BaseValue = enemyAttributeSet.MaxStagger.CurrentValue;
+        //TODO: Remove behavior tree stagger
         behaviorTree.SetVariableValue("IsStaggered", false);
+        BehaviorGraph.BlackboardReference.SetVariableValue("IsStaggered",false);
+        animator.SetBool("KnockedDown", false);
     }
 
     public void AddHealth(float amount)
@@ -160,6 +184,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         {
             // Approach A: Using SetVariableValue (no cast needed):
             behaviorTree.SetVariableValue("IsCombatStarted", true);
+            
 
             // Approach B: Or you can do a direct cast to SharedBool:
             // var isCombatStartedVar = behaviorTree.GetVariable("IsCombatStarted") as SharedBool;
@@ -167,6 +192,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
             //     isCombatStartedVar.Value = true;
             // }
         }
+        BehaviorGraph.BlackboardReference.SetVariableValue("IsCombatStarted", true);
     }
 
     public void OnCombatEndedInRoom(Room room)
@@ -176,6 +202,8 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         {
             behaviorTree.SetVariableValue("IsCombatStarted", false);
         }
+
+        BehaviorGraph.BlackboardReference.SetVariableValue("IsCombatStarted", false);
     }
 
     public virtual float GetStaggerMultiplier(EventContext context)

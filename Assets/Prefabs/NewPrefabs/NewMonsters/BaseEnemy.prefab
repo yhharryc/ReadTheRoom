@@ -724,6 +724,7 @@ GameObject:
   - component: {fileID: 969279395514591516}
   - component: {fileID: 9106414633374861125}
   - component: {fileID: 7371253023148817933}
+  - component: {fileID: 7960162177546501498}
   m_Layer: 14
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -824,7 +825,7 @@ NavMeshAgent:
   m_ObstacleAvoidanceType: 4
 --- !u!95 &969279395514591516
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -835,9 +836,10 @@ Animator:
   m_Controller: {fileID: 22100000, guid: b21bedfd61ed46d4ba4e769240459857, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -960,6 +962,35 @@ MonoBehaviour:
       Version: 1.7.12
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
+--- !u!114 &7960162177546501498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6932316613829653064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0038c16c34866b4f9e25c9c0dc0f7e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Graph: {fileID: 7968579095427978471, guid: 2ab511c93f3eda84c92308fd49c586a4, type: 2}
+  m_BlackboardVariableOverridesList:
+  - rid: 2059019322527056133
+  m_IsInitialised: 0
+  m_IsStarted: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 2059019322527056133
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 6932316613829653064}
 --- !u!1 &7202605543267214138
 GameObject:
   m_ObjectHideFlags: 0
