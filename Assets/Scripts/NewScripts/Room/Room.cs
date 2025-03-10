@@ -53,7 +53,7 @@ public class Room : MonoBehaviour
             door.Room = this;
             OnCombatStartedInRoom += door.OnCombatStartedInRoom;
             door.OnDoorFullyOpened += OnDoorFullyOpened;
-            //OnCombatEndedInRoom +=  door.OnDoorFullyClosed;
+            OnCombatEndedInRoom +=  door.OnCombatEndedInRoom;
         }
 
         // 2) Enemies (EnemyManager references)
