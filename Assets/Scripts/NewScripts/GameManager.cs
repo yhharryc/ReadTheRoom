@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using BehaviorDesigner.Runtime; 
 
 public class GameManager : MonoBehaviour
 {
@@ -29,8 +28,6 @@ public class GameManager : MonoBehaviour
         if (playerCharacter == null)
         {
             Debug.LogError("PlayerCharacter not found in the scene. Make sure it has the tag 'Player'.");
-        }else{
-            GlobalVariables.Instance.SetVariableValue("Player", playerCharacter.gameObject);
         }
     }
 
