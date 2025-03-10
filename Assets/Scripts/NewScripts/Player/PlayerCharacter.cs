@@ -83,6 +83,9 @@ public class PlayerCharacter : MonoBehaviour,
     // HFSM: 顶层状态机
     public StateMachine BaseStateMachine { get; private set; }
 
+    private bool isGuarding = false;
+    public bool IsGuarding { get { return isGuarding;}}
+
     // 几个大状态
     public MovementParentState   MovementParentState   { get; private set; }
     public TakeDamageParentState TakeDamageParentState { get; private set; }
@@ -654,5 +657,13 @@ public class PlayerCharacter : MonoBehaviour,
     }
 }
 
+    public void StartGuarding ()
+    {
+        this.isGuarding = true;
+    }
 
+    public void StopGuarding ()
+    {
+        this.isGuarding = false;
+    }
 }

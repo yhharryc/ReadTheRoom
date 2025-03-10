@@ -10,10 +10,16 @@ public class EventChainManager : MonoBehaviour
     public ScriptableEventNode<EventContext>[] initialHitNodes;
     public ScriptableEventNode<CharacterDiedEventContext>[] initialCharacterDiedEventNodes;
 
+    // ---------------- NEW: ScriptableObjects for PlayerHit chain ----------------
+    public ScriptableEventNode<EventContext>[] initialPlayerHitEventNodes;
+
     public EventChain<EventContext> AttackEventChain { get; private set; }
     public EventChain<EventContext> HitEventChain { get; private set; }
     public EventChain<CharacterDiedEventContext> CharacterDiedEventChain { get; private set; }
-    
+
+    // ---------------- NEW: The PlayerHitEventChain reference ----------------
+    public EventChain<EventContext> PlayerHitEventChain { get; private set; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -29,7 +35,10 @@ public class EventChainManager : MonoBehaviour
         HitEventChain = new EventChain<EventContext>();
         CharacterDiedEventChain = new EventChain<CharacterDiedEventContext>();
 
-        // Load initial nodes from ScriptableObjects
+        // ---------------- NEW: Create PlayerHitEventChain ----------------
+        PlayerHitEventChain = new EventChain<EventContext>();
+
+        // 1) Load initial nodes for AttackEventChain
         if (initialAttackNodes != null)
         {
             foreach (var nodeAsset in initialAttackNodes)
@@ -40,9 +49,10 @@ public class EventChainManager : MonoBehaviour
             }
         }
 
-        // Add a default node
+        // 2) Add a default node to HitEventChain
         HitEventChain.AddNode(new HandleHitReceiverNode());
 
+        // 3) Load initial nodes for HitEventChain
         if (initialHitNodes != null)
         {
             foreach (var nodeAsset in initialHitNodes)
@@ -53,6 +63,7 @@ public class EventChainManager : MonoBehaviour
             }
         }
 
+        // 4) Load initial nodes for CharacterDiedEventChain
         if (initialCharacterDiedEventNodes != null)
         {
             foreach (var nodeAsset in initialCharacterDiedEventNodes)
@@ -60,6 +71,17 @@ public class EventChainManager : MonoBehaviour
                 var node = nodeAsset?.CreateNodeInstance();
                 if (node != null)
                     CharacterDiedEventChain.AddNode(node);
+            }
+        }
+
+        // ---------------- NEW: Load initial nodes for PlayerHitEventChain ----------------
+        if (initialPlayerHitEventNodes != null)
+        {
+            foreach (var nodeAsset in initialPlayerHitEventNodes)
+            {
+                var node = nodeAsset?.CreateNodeInstance();
+                if (node != null)
+                    PlayerHitEventChain.AddNode(node);
             }
         }
     }
@@ -70,6 +92,9 @@ public class EventChainManager : MonoBehaviour
         ValidateNodesArray<EventContext>(ref initialAttackNodes, "initialAttackNodes");
         ValidateNodesArray<EventContext>(ref initialHitNodes, "initialHitNodes");
         ValidateNodesArray<CharacterDiedEventContext>(ref initialCharacterDiedEventNodes, "initialCharacterDiedEventNodes");
+
+        // ---------------- NEW: Also validate initialPlayerHitEventNodes as EventContext ----------------
+        ValidateNodesArray<EventContext>(ref initialPlayerHitEventNodes, "initialPlayerHitEventNodes");
     }
 
     /// <summary>
@@ -87,62 +112,77 @@ public class EventChainManager : MonoBehaviour
             var nodeAsset = array[i];
             if (nodeAsset == null) continue;
 
-            // Check if nodeAsset's reported context type matches TExpectedContext
             var reportedType = nodeAsset.GetContextType();
             if (reportedType != typeof(TExpectedContext))
             {
                 Debug.LogWarning($"[EventChainManager] {arrayName}[{i}] is of type {reportedType}, " + 
                                  $"expected {typeof(TExpectedContext)}. Removing this entry.");
-                // Remove it
                 array[i] = null;
             }
         }
     }
 
+    // -----------------------------------------
+    // Attack chain methods
+    // -----------------------------------------
     public void ExecuteAttackChain(ref EventContext context)
     {
         AttackEventChain.Execute(context);
     }
-
-    public void ExecuteHitChain(ref EventContext context)
-    {
-        HitEventChain.Execute(context);
-    }
-
     public void AddNodeToAttackChain(IEventNode<EventContext> node)
     {
         AttackEventChain.AddNode(node);
     }
-
-    public void AddNodeToHitChain(IEventNode<EventContext> node)
-    {
-        HitEventChain.AddNode(node);
-    }
-
     public void RemoveNodeFromAttackChain(IEventNode<EventContext> node)
     {
         AttackEventChain.RemoveNode(node);
     }
 
+    // -----------------------------------------
+    // Hit chain methods
+    // -----------------------------------------
+    public void ExecuteHitChain(ref EventContext context)
+    {
+        HitEventChain.Execute(context);
+    }
+    public void AddNodeToHitChain(IEventNode<EventContext> node)
+    {
+        HitEventChain.AddNode(node);
+    }
     public void RemoveNodeFromHitChain(IEventNode<EventContext> node)
     {
         HitEventChain.RemoveNode(node);
     }
 
+    // -----------------------------------------
+    // CharacterDied chain methods
+    // -----------------------------------------
     public void ExecuteCharacterDiedChain(ref CharacterDiedEventContext context)
     {
         CharacterDiedEventChain.Execute(context);
     }
-
     public void AddNodeToCharacterDiedChain(IEventNode<CharacterDiedEventContext> node)
     {
         CharacterDiedEventChain.AddNode(node);
     }
-
     public void RemoveNodeFromCharacterDiedChain(IEventNode<CharacterDiedEventContext> node)
     {
         CharacterDiedEventChain.RemoveNode(node);
     }
 
-    
+    // -----------------------------------------
+    // NEW: PlayerHit chain methods
+    // -----------------------------------------
+    public void ExecutePlayerHitChain(ref EventContext context)
+    {
+        PlayerHitEventChain.Execute(context);
+    }
+    public void AddNodeToPlayerHitChain(IEventNode<EventContext> node)
+    {
+        PlayerHitEventChain.AddNode(node);
+    }
+    public void RemoveNodeFromPlayerHitChain(IEventNode<EventContext> node)
+    {
+        PlayerHitEventChain.RemoveNode(node);
+    }
 }

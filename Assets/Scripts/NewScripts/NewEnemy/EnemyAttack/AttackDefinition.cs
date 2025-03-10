@@ -78,7 +78,8 @@ public class AttackDefinition : ScriptableObject
         //      EventChainManager.Instance.ExecuteAttackChain(ref ctx);
         //    Adjust as needed for your own chain system.
         //EventChainManager.Instance.ExecuteAttackChain(ref ctx);
-        target.TakeDamage(ctx);
+        EventChainManager.Instance.ExecutePlayerHitChain(ref ctx);
+        //target.TakeDamage(ctx);
         // After this point, the chain of IEventNode will process the context
         // (applying final damage, triggering VFX, etc.)
     }

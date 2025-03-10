@@ -38,6 +38,7 @@ public class AttackData
     [Tooltip("0: Not a push. 1: Light push. 2: Heavy Push")]
     public int PushType = 0;
     public float StaggerPower = 0f;      // How much stagger or knockback
+    public float StaggerMultiplier = 0f;
     public Vector3 PushDirection;       // If you want to store a direction
 }
 

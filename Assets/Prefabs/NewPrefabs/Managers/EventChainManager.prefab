@@ -54,3 +54,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e45be51e87a38c41ba8bed795d3011f, type: 2}
   - {fileID: 11400000, guid: 6a5935f49d5f82f45b9ddcfe6ea7dc24, type: 2}
   initialCharacterDiedEventNodes: []
+  initialPlayerHitEventNodes:
+  - {fileID: 11400000, guid: 8725d993611a84f4bba0de18d2a438b4, type: 2}
+  - {fileID: 11400000, guid: 9e71be2ad2e67d742a40dafb97b89c06, type: 2}
+  - {fileID: 11400000, guid: 06cc7382322fbf94f8b2df9f168dc9b6, type: 2}
+  - {fileID: 11400000, guid: d85c7be6ef3778d4c832cd053ba3c3b2, type: 2}

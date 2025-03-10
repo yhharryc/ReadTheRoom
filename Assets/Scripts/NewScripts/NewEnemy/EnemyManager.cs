@@ -22,6 +22,9 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 
     public bool IsKnockedDown {get{return animator.GetBool("KnockedDown");}}
 
+    private bool isAttacking;
+    public bool IsAttacking {get{return isAttacking;}set{isAttacking = value;}}
+
     private void Awake()
     {
         // If not assigned in inspector, try to get them on the same object
@@ -104,7 +107,6 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         
         float oldStagger = enemyAttributeSet.Stagger.CurrentValue;
         float newStagger = oldStagger - context.HitData.FinalStagger;
-        //TODO: Stagger multiplier based on enemy state.
         
         enemyAttributeSet.Stagger.BaseValue = newStagger;
         if (newStagger <= 0f &&!isDead)
@@ -113,8 +115,8 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
             KnockDown();
             return;
         }
-        if (context.Target.HitPartType  == HitPartType.WeakPoint)
-        {
+        if (context.Target.HitPartType  == HitPartType.WeakPoint||(context.AttackData.PushType>0 && isAttacking))
+        {   
             Stagger(context);
         }
     }
@@ -199,6 +201,10 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 
     public virtual float GetStaggerMultiplier(EventContext context)
     {
-        return 1f;
+        if(isAttacking)
+        {
+            return 1f;
+        }
+        return 0f;
     }
 }

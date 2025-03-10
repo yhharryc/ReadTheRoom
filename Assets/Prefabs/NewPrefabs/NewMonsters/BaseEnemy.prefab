@@ -762,7 +762,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilitySystemComponent: {fileID: 176617788372615032}
   enemyAttributeSet: {fileID: 1117805924704922966}
-  behaviorTree: {fileID: 0}
 --- !u!114 &176617788372615032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -793,9 +792,9 @@ MonoBehaviour:
   MaxHealth:
     baseValue: 200
   Stagger:
-    baseValue: 5
+    baseValue: 15
   MaxStagger:
-    baseValue: 5
+    baseValue: 15
   Damage:
     baseValue: 0
   MoveSpeed:

@@ -26,7 +26,8 @@ public class StaggerDamageNode : IEventNode<EventContext>
             var enemyMgr = context.Target?.Owner.GetComponent<EnemyManager>();
             
             if (enemyMgr != null) {
-               finalStagger *= enemyMgr.GetStaggerMultiplier(context);
+                context.AttackData.StaggerMultiplier += enemyMgr.GetStaggerMultiplier(context);
+               finalStagger *= (1f+ context.AttackData.StaggerMultiplier);
             }
         }
 
