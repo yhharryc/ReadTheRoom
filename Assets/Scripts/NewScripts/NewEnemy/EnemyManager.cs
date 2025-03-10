@@ -105,9 +105,15 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         float oldStagger = enemyAttributeSet.Stagger.CurrentValue;
         float newStagger = oldStagger - context.HitData.FinalStagger;
         //TODO: Stagger multiplier based on enemy state.
-
+        
         enemyAttributeSet.Stagger.BaseValue = newStagger;
         if (newStagger <= 0f &&!isDead)
+        {
+            Stagger(context);
+            KnockDown();
+            return;
+        }
+        if (context.Target.HitPartType  == HitPartType.WeakPoint)
         {
             Stagger(context);
         }
@@ -137,9 +143,13 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 
     public void RecoverFromKnockDown()
     {
-        enemyAttributeSet.Stagger.BaseValue = enemyAttributeSet.MaxStagger.CurrentValue;
+        if (animator!=null&&animator.GetBool("KnockedDown"))
+        {
+            animator.SetBool("KnockedDown", false);
+            enemyAttributeSet.Stagger.BaseValue = enemyAttributeSet.MaxStagger.CurrentValue;
+        }
         BehaviorGraph.BlackboardReference.SetVariableValue("IsStaggered",false);
-        animator.SetBool("KnockedDown", false);
+        
     }
 
     public void AddHealth(float amount)
