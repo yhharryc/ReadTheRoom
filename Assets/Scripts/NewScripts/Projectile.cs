@@ -61,20 +61,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        ICharacter hitCharacter = other.GetComponent<ICharacter>();
-        if (hitCharacter != null)
-        {
-            // 1) Avoid hitting the source (if you want that logic)
-            if (other.GetComponent<ICharacter>() == sourceCharacter )
-            {
-                
-                return; 
-            }
-            if( other.GetComponent<ICharacter>().Faction ==sourceCharacter.Faction)
-            {
-                return;
-            }
-        }
         
 
         if(other.gameObject.layer == LayerMask.NameToLayer("Projectile")|| other.GetComponent<Projectile>()!=null)
@@ -84,8 +70,22 @@ public class Projectile : MonoBehaviour
         if(hasHit)return;
         // 2) If it’s an IHitReceiver, we want to call the HitEventChain
         IHitReceiver hitReceiver = other.GetComponent<IHitReceiver>();
-        if (hitReceiver != null)
+        if(hitReceiver==null) return;
+        ICharacter hitCharacter = hitReceiver.Owner.GetComponent<ICharacter>();
+        if (hitCharacter != null)
         {
+            // 1) Avoid hitting the source (if you want that logic)
+            if (hitCharacter== sourceCharacter )
+            {
+                
+                return; 
+            }
+            if( hitCharacter.Faction ==sourceCharacter.Faction)
+            {
+                return;
+            }
+        }
+
             //Debug.Log("HIT" + other.gameObject.name);
             // If we have an eventContext from the weapon, let's reuse it
             if (eventContext != null)
@@ -141,5 +141,5 @@ public class Projectile : MonoBehaviour
         }
 
 
-    }
+    
 }

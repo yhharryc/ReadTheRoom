@@ -9,11 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fd5349ed262ec34a92512dda3fd24a2, type: 3}
-  m_Name: AD_Wolf_Melee
+  m_Script: {fileID: 11500000, guid: c9431de7936a4ab4c922edfae9389a89, type: 3}
+  m_Name: ProjectileAttackDefinition
   m_EditorClassIdentifier: 
   attackName: 
   damageMultiplier: 1
   animationMotion: {fileID: 0}
   conditionObjects:
-  - {fileID: 11400000, guid: 9e25a79b535b723428d3e0c7946e712f, type: 2}
+  - {fileID: 11400000, guid: a3c16ffc797104b4bac607132311dcd7, type: 2}
+  - {fileID: 11400000, guid: 09389f325aeca1d40a2801de8e5aa41a, type: 2}
+  projectilePrefab: {fileID: 1099013532479478957, guid: b2e1f7175f1a794429d9b6362a789920,
+    type: 3}
+  projectileSpeed: 3

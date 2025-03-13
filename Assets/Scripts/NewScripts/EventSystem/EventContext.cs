@@ -32,7 +32,7 @@ public class AttackData
     public float BaseDamage = 10f;
     public bool IsCritical = false;
     public string AmmoType = "Normal";
-
+    public float DamageMultiplier = 0f;
     public GameObject ProjectilePrefab;
     // ... Extend with other fields as needed
     [Tooltip("0: Not a push. 1: Light push. 2: Heavy Push")]

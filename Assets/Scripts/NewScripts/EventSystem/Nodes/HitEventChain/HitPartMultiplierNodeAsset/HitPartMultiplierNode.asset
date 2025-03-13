@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: HitPartMultiplierNode
   m_EditorClassIdentifier: 
   priority: 0
-  weakPointMultiplier: 1.5
-  armoredMultiplier: 0.3
+  weakPointMultiplier: 0.5
+  armoredMultiplier: 0

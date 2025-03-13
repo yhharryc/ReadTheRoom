@@ -9,6 +9,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     [Header("Ability System / Stats")]
     [SerializeField] private AbilitySystemComponent abilitySystemComponent;
     [SerializeField] private CharacterAttributeSet enemyAttributeSet;
+    [SerializeField] private Transform projectileSpawnTransform;
 
     private BehaviorGraph behaviorGraph;
     public BehaviorGraph BehaviorGraph{get {return behaviorGraph;}}
@@ -223,5 +224,14 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
             return 1f;
         }
         return 0f;
+    }
+
+    public virtual Transform GetProjectileTransform()
+    {
+        if (projectileSpawnTransform ==null)
+        {
+            return gameObject.transform;
+        }
+        return projectileSpawnTransform;
     }
 }

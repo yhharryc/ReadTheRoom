@@ -1,8 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "AttackDefinition", menuName = "MyGame/AI/AttackDefinition")]
-public class AttackDefinition : ScriptableObject
+/// <summary>
+/// The base abstract class for all attacks. 
+/// It provides a skeleton for performing an attack, 
+/// but the actual logic is implemented in derived classes (Melee, Projectile, etc.).
+/// </summary>
+public abstract class AttackDefinition : ScriptableObject
 {
     public string attackName;
 
@@ -13,16 +17,13 @@ public class AttackDefinition : ScriptableObject
     [Header("Animation / Motion")]
     [Tooltip("Reference to a Motion or AnimationClip that can be swapped into an Animator Override Controller.")]
     public Motion animationMotion;
-    // Alternatively, you could store an AnimationClip:
-    // public AnimationClip animationClip;
 
     [Header("Conditions to Satisfy")]
     [SerializeField]
     private List<BaseConditionAsset> conditionObjects;
 
-
     /// <summary>
-    /// Evaluates whether all the attached IAttackCondition objects pass.
+    /// Checks if all conditions are satisfied for this attack.
     /// </summary>
     public bool CanAttack(AttackContext context)
     {
@@ -32,57 +33,18 @@ public class AttackDefinition : ScriptableObject
         {
             if (obj is IAttackCondition condition)
             {
-                if (!condition.Evaluate(context))
-                    return false; 
+                if (!condition.Evaluate(context)) 
+                    return false;
             }
         }
         return true;
     }
 
-    public virtual void PerformAttack(ICharacter source, ICharacter target)
-    {
-        
-        // 1) Safety checks
-        if (source == null) {
-            Debug.LogWarning($"[AttackDefinition] PerformAttack called with null source.");
-            return;
-        }
-        if (target == null) {
-            Debug.LogWarning($"[AttackDefinition] PerformAttack called with null target.");
-            return;
-        }
-
-        // 2) Obtain or define a base damage. 
-        //    Here we show a simple placeholder of 10f, 
-        //    but you could read from source's ability system or attribute set:
-        //      float baseDamage = source.GetAbilitySystemComponent().AttributeSet.Damage.CurrentValue;
-        float baseDamage = 10f; 
-        float finalDamage = baseDamage * damageMultiplier;
-
-        // 3) Build the EventContext 
-        var ctx = new EventContext {
-            Source = source,
-            Target = target as IHitReceiver,  // Must cast to IHitReceiver
-            AttackData = new AttackData {
-                BaseDamage = finalDamage,
-                // Optionally fill in other fields (AmmoType, PushType, etc.)
-            },
-            HitData = new HitData {
-                // FinalDamage often computed later in the chain, 
-                // but we can set 0f as placeholder or mirror AttackData.
-                FinalDamage = finalDamage,
-            }
-        };
-
-        // 4) Dispatch to the AttackEventChain (if you have a manager or global chain).
-        //    Typically you have something like:
-        //      EventChainManager.Instance.ExecuteAttackChain(ref ctx);
-        //    Adjust as needed for your own chain system.
-        //EventChainManager.Instance.ExecuteAttackChain(ref ctx);
-        EventChainManager.Instance.ExecutePlayerHitChain(ref ctx);
-        //target.TakeDamage(ctx);
-        // After this point, the chain of IEventNode will process the context
-        // (applying final damage, triggering VFX, etc.)
-    }
-
+    /// <summary>
+    /// Perform the attack from source to target. Implementation 
+    /// will vary in derived classes (e.g. Melee vs Projectile).
+    /// </summary>
+    /// <param name="source">The character performing the attack.</param>
+    /// <param name="target">The character being targeted.</param>
+    public abstract void PerformAttack(ICharacter source, ICharacter target);
 }
