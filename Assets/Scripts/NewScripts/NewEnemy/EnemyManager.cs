@@ -24,6 +24,15 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 
     private bool isAttacking;
     public bool IsAttacking {get{return isAttacking;}set{isAttacking = value;}}
+    [Header("AI Settings")]
+    [SerializeField]
+    private BehaviorGraph attackBehaviorGraph;
+    public BehaviorGraph AttackBehaviorGraph{get{return attackBehaviorGraph;}}
+    [SerializeField]
+    private AttackDefinition currentAttack;
+    public AttackDefinition CurrentAttack{get{return currentAttack;}}
+
+    private GameObject target;
 
     private void Awake()
     {
@@ -36,7 +45,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         if (enemyAttributeSet != null)
         {
             float maxHealth = enemyAttributeSet.MaxHealth.CurrentValue;
-            
+
             float currentHealth = enemyAttributeSet.Health.CurrentValue;
             
             Debug.Log($"Enemy initial Health = {currentHealth}/{maxHealth}");
@@ -44,7 +53,11 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         animator = GetComponent<Animator>();
 
     }
-
+    public virtual GameObject GetTarget()
+    {
+        target = GameManager.Instance.PlayerCharacter.gameObject;
+        return target;
+    }
     protected virtual void Start() {
         behaviorGraph = GetComponent<BehaviorGraphAgent>().Graph;
         if (behaviorGraph != null)

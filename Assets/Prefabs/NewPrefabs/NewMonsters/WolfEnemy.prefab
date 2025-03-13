@@ -2405,6 +2405,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: WolfEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7162580061781786120, guid: 35aea83b1e866b746b8184f906994fb0,
+        type: 3}
+      propertyPath: currentAttack
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e095b5795b5bc743ba2a67ddcf64ff5,
+        type: 2}
+    - target: {fileID: 7162580061781786120, guid: 35aea83b1e866b746b8184f906994fb0,
+        type: 3}
+      propertyPath: AttackSequenceGraph
+      value: 
+      objectReference: {fileID: -3143455981727241848, guid: 81191427aa71c0e499afa3c94ef0a66b,
+        type: 2}
+    - target: {fileID: 7162580061781786120, guid: 35aea83b1e866b746b8184f906994fb0,
+        type: 3}
+      propertyPath: attackBehaviorGraph
+      value: 
+      objectReference: {fileID: -3143455981727241848, guid: 81191427aa71c0e499afa3c94ef0a66b,
+        type: 2}
     - target: {fileID: 8390334663214913573, guid: 35aea83b1e866b746b8184f906994fb0,
         type: 3}
       propertyPath: m_Height
