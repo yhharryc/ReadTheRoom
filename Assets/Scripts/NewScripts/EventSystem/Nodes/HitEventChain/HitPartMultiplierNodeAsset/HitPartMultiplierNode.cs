@@ -21,13 +21,17 @@ public class HitPartMultiplierNode : IEventNode<EventContext>
         {
             case HitPartType.WeakPoint:
                 multiplier = WeakPointMultiplier;
+                context.HitData.WasCrit = true;
                 break;
             case HitPartType.Armored:
                 multiplier = ArmoredMultiplier;
                 break;
             default:
                 if (enemyManager!=null && enemyManager.IsKnockedDown)
-                multiplier = WeakPointMultiplier;
+                {
+                    multiplier = WeakPointMultiplier;
+                    context.HitData.WasCrit = true;
+                }
                 break;
         }
         context.AttackData.DamageMultiplier = multiplier;
