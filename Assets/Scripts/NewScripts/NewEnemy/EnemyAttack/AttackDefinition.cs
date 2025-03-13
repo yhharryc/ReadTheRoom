@@ -18,7 +18,7 @@ public class AttackDefinition : ScriptableObject
 
     [Header("Conditions to Satisfy")]
     [SerializeField]
-    private List<ScriptableObject> conditionObjects;
+    private List<BaseConditionAsset> conditionObjects;
 
 
     /// <summary>

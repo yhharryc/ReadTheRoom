@@ -35,8 +35,10 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
 
         if (enemyAttributeSet != null)
         {
-            float currentHealth = enemyAttributeSet.Health.CurrentValue;
             float maxHealth = enemyAttributeSet.MaxHealth.CurrentValue;
+            
+            float currentHealth = enemyAttributeSet.Health.CurrentValue;
+            
             Debug.Log($"Enemy initial Health = {currentHealth}/{maxHealth}");
         }
         animator = GetComponent<Animator>();
@@ -49,6 +51,8 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         {
             InitializeBehaviorGraph();
         }
+        
+        
     }
     private void Update()
     {

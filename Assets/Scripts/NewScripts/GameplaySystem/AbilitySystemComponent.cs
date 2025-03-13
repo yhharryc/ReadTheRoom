@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class AbilitySystemComponent : MonoBehaviour
@@ -276,6 +277,70 @@ public class AbilitySystemComponent : MonoBehaviour
 
         foundAttribute = true;
         return gameplayAttribute.CurrentValue;
+    }
+
+    /// <summary>
+    /// Retrieves the current value of an attribute by name, using reflection.
+    /// Returns 0 if not found or if the field is not a GameplayAttribute.
+    /// Also returns whether the attribute was found via out bool foundAttribute.
+    /// </summary>
+    public float GetAttributeValue(string attributeName, out bool foundAttribute)
+    {
+        foundAttribute = false;
+        if (attributeSet == null) return 0f;
+
+        // 1) Use reflection to find a field of 'attributeSet' type with the specified name
+        FieldInfo fieldInfo = attributeSet.GetType().GetField(
+            attributeName,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+        );
+        if (fieldInfo == null)
+        {
+            Debug.LogWarning($"[GetAttributeValue] Attribute field not found: {attributeName}");
+            return 0f;
+        }
+
+        // 2) Attempt to get the field’s value from 'attributeSet', not from 'this'
+        GameplayAttribute attr = fieldInfo.GetValue(attributeSet) as GameplayAttribute;
+        if (attr == null)
+        {
+            Debug.LogWarning($"[GetAttributeValue] Field '{attributeName}' is not a GameplayAttribute or is null.");
+            return 0f;
+        }
+
+        foundAttribute = true;
+        return attr.CurrentValue;
+    }
+
+    /// <summary>
+    /// Retrieves the base value of an attribute by name, using reflection.
+    /// Returns 0 if not found or if the field is not a GameplayAttribute.
+    /// Also returns whether the attribute was found via out bool foundAttribute.
+    /// </summary>
+    public float GetAttributeBaseValue(string attributeName, out bool foundAttribute)
+    {
+        foundAttribute = false;
+        if (attributeSet == null) return 0f;
+
+        FieldInfo fieldInfo = attributeSet.GetType().GetField(
+            attributeName,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+        );
+        if (fieldInfo == null)
+        {
+            Debug.LogWarning($"[GetAttributeBaseValue] Attribute field not found: {attributeName}");
+            return 0f;
+        }
+
+        GameplayAttribute attr = fieldInfo.GetValue(attributeSet) as GameplayAttribute;
+        if (attr == null)
+        {
+            Debug.LogWarning($"[GetAttributeBaseValue] Field '{attributeName}' is not a GameplayAttribute or is null.");
+            return 0f;
+        }
+
+        foundAttribute = true;
+        return attr.BaseValue;
     }
 
 
