@@ -94,8 +94,16 @@ public class MovementParentState : BaseState
                 
                 // No interactable found, but user scrolled forward => go to push sub-state
                 Debug.Log("No interactable found. Entering PushSubState for a quick push action.");
-                var pushSub = new PushSubState(player, stateMachine);
-                stateMachine.ChangeState(pushSub);
+                if(currentSubState is WalkSubState)
+                {
+                    var pushSub = new PushSubState(player, stateMachine);
+                    stateMachine.ChangeState(pushSub);
+                }else{
+                    var pushSub = new PushSubState(player, stateMachine,2);
+                    stateMachine.ChangeState(pushSub);
+                }
+                
+                
             }
         }
 

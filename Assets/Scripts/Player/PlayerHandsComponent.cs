@@ -19,7 +19,7 @@ public class PlayerHandsComponent : SerializedMonoBehaviour
         public Vector3 rotation; // Rotation in Euler angles
         public Vector3 scale;
     }
-
+    [SerializeField]
     private PlayerCharacter ownerCharacter;
 
     [SerializeField]

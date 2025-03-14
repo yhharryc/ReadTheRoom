@@ -139,6 +139,7 @@ public class PlayerCharacter : MonoBehaviour,
         abilitySystemComponent = GetComponent<AbilitySystemComponent>();
         weaponComponent = GetComponentInChildren<WeaponComponent>();
         hand = GetComponentInChildren<PlayerHandsComponent>();
+        hand.Initialize(this);
         interactComponent = GetComponentInChildren<InteractComponent>();
         freeLookCameraController = GetComponentInChildren<FreeLookCameraController>();
 
