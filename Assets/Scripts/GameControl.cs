@@ -6,7 +6,7 @@ public class GameControl : MonoBehaviour
 {
     public GameObject Player;
     public BlackOutUI blackOutUI;
-    public EscapeBtn EscapeBtn;
+    //public EscapeBtn EscapeBtn;
 
     private static GameControl _gameControl = null;
     public static GameControl Game
@@ -28,7 +28,7 @@ public class GameControl : MonoBehaviour
         Player = GameObject.FindGameObjectWithTag("Player");
         blackOutUI= GameObject.Find("BlackOut").GetComponent<BlackOutUI>();
         blackOutUI.SetTransparent(0);
-        EscapeBtn= GameObject.Find("EscapeBtn").GetComponent<EscapeBtn>();
+        //EscapeBtn= GameObject.Find("EscapeBtn").GetComponent<EscapeBtn>();
     }
 
 
