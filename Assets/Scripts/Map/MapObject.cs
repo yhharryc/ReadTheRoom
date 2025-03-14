@@ -36,11 +36,11 @@ public class MapObject : MonoBehaviour
         }
         else
         {
-            ItemPickUp pickUp = GetComponent<ItemPickUp>();
-            if (pickUp != null)
-            {
-                spriteRenderer.sprite = pickUp.item.itemSprite;
-            }
+            //ItemPickUp pickUp = GetComponent<ItemPickUp>();
+            //if (pickUp != null)
+            //{
+            //    spriteRenderer.sprite = pickUp.item.itemSprite;
+            //}
         }
 
         // Try to get the main camera

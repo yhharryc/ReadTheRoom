@@ -6,6 +6,7 @@ public class MovementParentState : BaseState
     private PlayerCharacter player;
     private BaseState currentSubState;
 
+
     // Sub-states
     public WalkSubState   WalkSubState   { get; private set; }
     public SprintSubState SprintSubState { get; private set; }
@@ -93,8 +94,18 @@ public class MovementParentState : BaseState
                 
                 // No interactable found, but user scrolled forward => go to push sub-state
                 Debug.Log("No interactable found. Entering PushSubState for a quick push action.");
-                var pushSub = new PushSubState(player, stateMachine);
-                stateMachine.ChangeState(pushSub);
+                if(currentSubState is WalkSubState)
+                {
+                    var pushSub = new PushSubState(player, stateMachine);
+                    stateMachine.ChangeState(pushSub);
+                }else{
+                    //FIXME: only doing push type 1 now. 
+                    //var pushSub = new PushSubState(player, stateMachine,2);
+                    var pushSub = new PushSubState(player, stateMachine);
+                    stateMachine.ChangeState(pushSub);
+                }
+                
+                
             }
         }
 

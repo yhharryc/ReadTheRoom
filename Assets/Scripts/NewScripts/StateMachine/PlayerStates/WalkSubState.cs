@@ -56,7 +56,10 @@ public class WalkSubState : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-
+        if(player.SprintInput && (player.MoveInput.y>0f && player.SprintTimer<=0f))
+        {
+            parentState.SetSubState(parentState.SprintSubState);
+        }
         // The usual movement logic
         float finalSpeed = player.MoveSpeed;
         if (player.MoveInput.y < 0f)

@@ -1,90 +1,74 @@
-#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 using System;
-using System.Linq;
-using System.Reflection;
-
+#if UNITY_EDITOR
 [CustomEditor(typeof(AttributeReference))]
 public class AttributeReferenceEditor : Editor
 {
-    private AttributeReference reference;
-    private string[] attributeNames = new string[0];
-    private int selectedIndex = -1;
-
-    void OnEnable()
-    {
-        reference = (AttributeReference)target;
-        UpdateAttributeList();
-    }
-
-    void UpdateAttributeList()
-    {
-        var type = reference.GetAttributeSetType();
-        if (type == null)
-        {
-            attributeNames = new string[0];
-            selectedIndex = -1;
-            return;
-        }
-
-        // 查找所有类型为GameplayAttribute的public实例字段
-        var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance)
-            .Where(f => f.FieldType == typeof(GameplayAttribute)).ToList();
-
-        attributeNames = fields.Select(f => f.Name).ToArray();
-
-        selectedIndex = Array.IndexOf(attributeNames, GetCurrentAttributeName());
-        if (selectedIndex < 0 && attributeNames.Length > 0)
-        {
-            selectedIndex = 0;
-            SetCurrentAttributeName(attributeNames[0]);
-        }
-    }
-
     public override void OnInspectorGUI()
     {
-        serializedObject.Update();
+        // Cast target to your ScriptableObject type
+        var attrRef = (AttributeReference)target;
 
-        EditorGUI.BeginChangeCheck();
-        var scriptProperty = serializedObject.FindProperty("attributeSetScript");
-        EditorGUILayout.PropertyField(scriptProperty, new GUIContent("Attribute Set Script"));
-        if (EditorGUI.EndChangeCheck())
-        {
-            serializedObject.ApplyModifiedProperties();
-            UpdateAttributeList();
-        }
+        // Display the MonoScript field
+        EditorGUILayout.LabelField("Pick AttributeSet Script (Optional)", EditorStyles.boldLabel);
+        MonoScript newScript = (MonoScript)EditorGUILayout.ObjectField(
+            "Attribute Set Script",
+            attrRef.attributeSetScript,
+            typeof(MonoScript),
+            false
+        );
 
-        if (attributeNames.Length > 0)
+        // If the user changed the script, update the reference
+        if (newScript != attrRef.attributeSetScript)
         {
-            EditorGUI.BeginChangeCheck();
-            selectedIndex = EditorGUILayout.Popup("Attribute", selectedIndex, attributeNames);
-            if (EditorGUI.EndChangeCheck())
+            Undo.RecordObject(attrRef, "Change AttributeReference Script");
+            attrRef.attributeSetScript = newScript;
+
+#if UNITY_EDITOR
+            // If assigned, store the AssemblyQualifiedName into typeName
+            if (attrRef.attributeSetScript != null)
             {
-                SetCurrentAttributeName(attributeNames[selectedIndex]);
+                var t = attrRef.attributeSetScript.GetClass();
+                if (t != null)
+                {
+                    attrRef.typeName = t.AssemblyQualifiedName;
+                }
             }
-        }
-        else
-        {
-            EditorGUILayout.LabelField("No GameplayAttribute fields found.");
+#endif
         }
 
-        serializedObject.ApplyModifiedProperties();
-    }
+        EditorGUILayout.Space();
 
-    private string GetCurrentAttributeName()
-    {
-        var prop = serializedObject.FindProperty("attributeFieldName");
-        return prop != null ? prop.stringValue : "";
-    }
-
-    private void SetCurrentAttributeName(string name)
-    {
-        var prop = serializedObject.FindProperty("attributeFieldName");
-        if (prop != null)
+        // Show the typeName as a text field, so you can override or type manually
+        EditorGUILayout.LabelField("Type Name (Runtime Fallback)", EditorStyles.boldLabel);
+        string newTypeName = EditorGUILayout.TextField("Type Name", attrRef.typeName);
+        if (newTypeName != attrRef.typeName)
         {
-            prop.stringValue = name;
-            serializedObject.ApplyModifiedProperties();
+            Undo.RecordObject(attrRef, "Change AttributeReference TypeName");
+            attrRef.typeName = newTypeName;
+        }
+
+        EditorGUILayout.Space();
+
+        // Show the attributeFieldName text field
+        EditorGUILayout.LabelField("Field Name", EditorStyles.boldLabel);
+        string newFieldName = EditorGUILayout.TextField("Attribute Field Name", attrRef.attributeFieldName);
+        if (newFieldName != attrRef.attributeFieldName)
+        {
+            Undo.RecordObject(attrRef, "Change AttributeReference FieldName");
+            attrRef.attributeFieldName = newFieldName;
+        }
+
+        EditorGUILayout.Space();
+
+        // Optionally display whether IsValid is true or false
+        EditorGUILayout.LabelField("IsValid: " + attrRef.IsValid());
+
+        // Apply any changed fields
+        if (GUI.changed)
+        {
+            EditorUtility.SetDirty(attrRef);
         }
     }
 }

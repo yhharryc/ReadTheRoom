@@ -6,6 +6,7 @@ public class PushSubState : BaseState
 {
     private PlayerCharacter player;
     private Animator handAnimator;
+    public int PushType = 1;
 
     // The name of the push animation in your Animator Controller.
     // Adjust to match your actual animation state name.
@@ -15,11 +16,12 @@ public class PushSubState : BaseState
     // If you prefer a Trigger, see the notes below.
     private const string PUSH_BOOL_PARAM = "IsPushing";
 
-    public PushSubState(IStateMachineEntity owner, StateMachine stateMachine)
+    public PushSubState(IStateMachineEntity owner, StateMachine stateMachine, int PushType = 1 )
         : base(owner, stateMachine)
     {
         // Typically just store references in constructor if needed
         player = (PlayerCharacter)owner;
+        this.PushType= PushType;
     }
 
     public override void Enter()
@@ -44,7 +46,15 @@ public class PushSubState : BaseState
         // Option A: Using a bool
         if (handAnimator != null)
         {
-            handAnimator.SetBool(PUSH_BOOL_PARAM, true);
+            if(PushType==1)
+            {
+                handAnimator.SetInteger("PushType", PushType);
+                handAnimator.SetBool(PUSH_BOOL_PARAM, true);
+            }
+            else{
+                handAnimator.SetInteger("PushType", PushType);
+                handAnimator.SetBool(PUSH_BOOL_PARAM, true);
+            }
         }
         // Option B: Using a trigger instead:
         // handAnimator.SetTrigger("PushTrigger");
@@ -59,7 +69,7 @@ public class PushSubState : BaseState
         {
             AnimatorStateInfo stateInfo = handAnimator.GetCurrentAnimatorStateInfo(0);
             // Check if we are in the push animation AND have passed 1.0 normalized time
-            if (stateInfo.IsName(PUSH_ANIMATION_STATE) && stateInfo.normalizedTime >= 1f)
+            if ((stateInfo.IsName(PUSH_ANIMATION_STATE)|| stateInfo.IsName("HardPush") )&& stateInfo.normalizedTime >= 1f)
             {
                 // Once the animation is complete, go back to walk or parent movement state
                 // e.g. if you have a reference to the WalkSubState or MovementParentState:

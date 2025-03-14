@@ -28,7 +28,14 @@ public class StaggerDamageNode : IEventNode<EventContext>
             if (enemyMgr != null) {
                 context.AttackData.StaggerMultiplier += enemyMgr.GetStaggerMultiplier(context);
                finalStagger *= (1f+ context.AttackData.StaggerMultiplier);
+
+               if(context.AttackData.PushType >1)
+                {
+                    finalStagger*=2f;
+                    
+                }
             }
+            
         }
 
         // Then store finalStagger in AttackData or in HitData, 

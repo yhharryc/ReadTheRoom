@@ -77,7 +77,7 @@ public class GameSceneManager : MonoBehaviour
 
     public void OnDeath()
     {
-        InventoryManager.Instance.OnDeath();
+        //InventoryManager.Instance.OnDeath();
         TransitionToScene("DeathScene");
     }
 }

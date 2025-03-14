@@ -9,6 +9,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     [Header("Ability System / Stats")]
     [SerializeField] private AbilitySystemComponent abilitySystemComponent;
     [SerializeField] private CharacterAttributeSet enemyAttributeSet;
+    [SerializeField] private Transform projectileSpawnTransform;
 
     private BehaviorGraph behaviorGraph;
     public BehaviorGraph BehaviorGraph{get {return behaviorGraph;}}
@@ -16,6 +17,7 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
     private Animator animator;
 
     private bool isDead = false;
+    public bool IsDead{get {return isDead;}}
     public event System.Action<ICharacter> OnCharacterDied;
 
     public Faction Faction => Faction.ENEMY;
@@ -192,8 +194,15 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
         if (isDead) return;
         isDead = true;
         Debug.Log($"[EnemyManager] {name} died.");
-
+        animator.SetBool("IsDead", true);
+        animator.SetTrigger("DieTrigger");
         OnCharacterDied?.Invoke(this);
+        //gameObject.SetActive(false);
+        
+    }
+    public void OnDeathStateEnded()
+    {
+        //HACK: Need proper VFX, turning off collider, etc
         gameObject.SetActive(false);
     }
 
@@ -223,5 +232,14 @@ public class EnemyManager : MonoBehaviour, ICharacter, IRoomObject
             return 1f;
         }
         return 0f;
+    }
+
+    public virtual Transform GetProjectileTransform()
+    {
+        if (projectileSpawnTransform ==null)
+        {
+            return gameObject.transform;
+        }
+        return projectileSpawnTransform;
     }
 }

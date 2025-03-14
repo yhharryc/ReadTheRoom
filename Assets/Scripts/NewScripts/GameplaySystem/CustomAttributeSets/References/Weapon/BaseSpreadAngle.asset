@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecf4425ce6b0a614a9f2e6d1c01324db, type: 3}
   m_Name: BaseSpreadAngle
   m_EditorClassIdentifier: 
+  typeName: BaseSpreadAngle
   attributeSetScript: {fileID: 11500000, guid: 95669d1f4c301504f865c26688f4f97b, type: 3}
   attributeFieldName: BaseSpreadAngle

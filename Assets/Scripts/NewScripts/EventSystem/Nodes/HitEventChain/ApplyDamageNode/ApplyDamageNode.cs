@@ -8,7 +8,7 @@ public class ApplyDamageNode : IEventNode<EventContext>
     {
         if (context == null || context.HitData == null || context.Target == null)
             return;
-
+        context.HitData.FinalDamage = context.HitData.FinalDamage * (context.AttackData.DamageMultiplier+1f);
         // Get the ICharacter from the Target’s owner
         var character = context.Target.Owner.GetComponent<ICharacter>();
         if (character == null) return;

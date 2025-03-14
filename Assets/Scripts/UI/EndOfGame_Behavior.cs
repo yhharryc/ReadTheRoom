@@ -65,7 +65,7 @@ public class EndOfGame_Behavior : MonoBehaviour
         }
         else
         {
-            StartCoroutine(TypewriterText(FindObjectOfType<DayManager>().GetSuccess()));
+            //StartCoroutine(TypewriterText(FindObjectOfType<DayManager>().GetSuccess()));
         }
     }
 
@@ -105,7 +105,8 @@ public class EndOfGame_Behavior : MonoBehaviour
         }
         else
         {
-            msg1 = "You were " + (DayManager.Instance.GetQuota() - DayManager.Instance.GetMoney()).ToString() + " gold short of the tithe";
+            msg1= "";
+            //msg1 = "You were " + (DayManager.Instance.GetQuota() - DayManager.Instance.GetMoney()).ToString() + " gold short of the tithe";
         }
         foreach (char c in msg1)
         {
