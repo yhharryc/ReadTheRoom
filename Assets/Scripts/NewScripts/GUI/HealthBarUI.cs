@@ -6,10 +6,12 @@ public class HealthBarUI : MonoBehaviour
     [Header("Faction Selection")]
     [SerializeField] private Faction faction = Faction.NONE;
 
-    [Header("Health Bar UI")]
-    [SerializeField] private Image healthFillImage;
+    [Header("Bar UI")]
+    [SerializeField] private Image fillImage;
 
     private ICharacter character;
+    [Tooltip("The name of the variable you are looking for. Needs to be one with a corresponding Max Attribute. For example, 'Health' and 'MaxHealth'")]
+    [SerializeField] private string attributeName = "Health";
 
     private void Start()
     {
@@ -48,9 +50,16 @@ public class HealthBarUI : MonoBehaviour
     {
         // If no character assigned, do nothing
         if (character == null) return;
-
-        // Update fill from 0.0 to 1.0
-        float fillAmount = character.Health / character.MaxHealth;
-        healthFillImage.fillAmount = Mathf.Clamp01(fillAmount);
+        AbilitySystemComponent asc = character.GetAbilitySystemComponent();
+        if(asc==null) return;
+        float attributeValue = asc.GetAttributeValue(attributeName,out bool foundAttribute);
+        float maxAttributeValue = asc.GetAttributeValue("Max"+attributeName,out bool foundMaxAttribute);
+        if(foundAttribute && foundMaxAttribute)
+        {
+            // Update fill from 0.0 to 1.0
+            float fillAmount = attributeValue / maxAttributeValue;
+            fillImage.fillAmount = Mathf.Clamp01(fillAmount);
+        }
+        //FIXME: should hook up to attribute change event so that it's not updating every tick. 
     }
 }
