@@ -371,6 +371,49 @@ public class AbilitySystemComponent : MonoBehaviour
         gameplayAttribute.BaseValue = newBaseValue;
     }
 
+    /// <summary>
+    /// Sets the base value of an attribute by name, using reflection.
+    /// Returns whether the attribute was found via out bool foundAttribute.
+    /// </summary>
+    public void SetAttributeBaseValue(string attributeName, float newBaseValue, out bool foundAttribute)
+    {
+        foundAttribute = false;
+        if (attributeSet == null)
+        {
+            Debug.LogWarning($"[SetAttributeBaseValue] No attributeSet assigned to {name}.");
+            return;
+        }
+
+        // 1) Use reflection to find a field of 'attributeSet' type with the specified name
+        FieldInfo fieldInfo = attributeSet.GetType().GetField(
+            attributeName,
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+        );
+        if (fieldInfo == null)
+        {
+            Debug.LogWarning($"[SetAttributeBaseValue] Attribute field not found: {attributeName}");
+            return;
+        }
+
+        // 2) Attempt to get the field’s value from 'attributeSet'
+        GameplayAttribute attr = fieldInfo.GetValue(attributeSet) as GameplayAttribute;
+        if (attr == null)
+        {
+            Debug.LogWarning($"[SetAttributeBaseValue] Field '{attributeName}' is not a GameplayAttribute or is null.");
+            return;
+        }
+
+        // 3) If we get here, the attribute is valid, so we set the new base value
+        float oldValue = attr.BaseValue;
+        attr.BaseValue = newBaseValue;
+
+        foundAttribute = true;
+
+        // Optionally, if you want to fire an event or log:
+        // OnAttributeChanged?.Invoke(...) or a Debug.Log, etc.
+        // OnAttributeChanged?.Invoke(/*some AttributeReference*/, oldValue, newBaseValue);
+    }
+
     //-----------------------------
     // 10) Access the underlying GameplayAttribute
     //     so we can add/remove modifiers

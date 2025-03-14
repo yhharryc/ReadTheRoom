@@ -6,6 +6,9 @@ public class CharacterAttributeSet : AttributeSet
 {
     public GameplayAttribute Health;
     public GameplayAttribute MaxHealth;
+
+    public GameplayAttribute Stamina;
+    public GameplayAttribute MaxStamina; 
     
     public GameplayAttribute Stagger;
     public GameplayAttribute MaxStagger;

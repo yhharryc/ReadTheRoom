@@ -117,10 +117,11 @@ public class PlayerCharacter : MonoBehaviour,
     private float health = 100f; // Default health
     public float Health
     {
-        get => health;
+        get => abilitySystemComponent.GetAttributeValue("Health", out bool foundAttribute);
         set
         {
-            health = Mathf.Clamp(value, 0f, MaxHealth);
+            //health = Mathf.Clamp(value, 0f, MaxHealth);
+            abilitySystemComponent.SetAttributeBaseValue("Health", value,out bool foundAttribute);
         }
     }
     public float MaxHealth => 100f;
@@ -369,6 +370,7 @@ public class PlayerCharacter : MonoBehaviour,
 
     public void TakeDamage(EventContext context)
     {
+        
         Health -= context.HitData.FinalDamage;
         if (Health < 0f) Health = 0f;
         Debug.Log("Player Health is now: " + Health);

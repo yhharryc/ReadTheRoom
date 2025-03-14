@@ -348,6 +348,7 @@ MonoBehaviour:
   artifactsOnStart: []
   gravity: 9.81
   moveSpeed: 1.5
+  SprintTimer: 0
   mainCameraTransform: {fileID: 2082362056165530588}
   characterController: {fileID: 7803116860341066059}
   bumpDistance: 0.3
@@ -385,6 +386,10 @@ MonoBehaviour:
   Health:
     baseValue: 100
   MaxHealth:
+    baseValue: 100
+  Stamina:
+    baseValue: 100
+  MaxStamina:
     baseValue: 100
   Stagger:
     baseValue: 0
@@ -658,6 +663,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  ownerCharacter: {fileID: 0}
   leftHand: {fileID: 1914783943360209120}
   rightHand: {fileID: 5299848589195344963}
   transitionDuration: 0.2
@@ -911,6 +917,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  ownerCharacter: {fileID: 0}
   leftHand: {fileID: 1914783943360209120}
   rightHand: {fileID: 5299848589195344963}
   transitionDuration: 0.2
