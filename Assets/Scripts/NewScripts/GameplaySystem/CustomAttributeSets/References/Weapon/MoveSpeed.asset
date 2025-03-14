@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecf4425ce6b0a614a9f2e6d1c01324db, type: 3}
   m_Name: MoveSpeed
   m_EditorClassIdentifier: 
+  typeName: MoveSpeed
   attributeSetScript: {fileID: 11500000, guid: 7884f2f316aa64e499dd91241147940c, type: 3}
   attributeFieldName: MoveSpeed

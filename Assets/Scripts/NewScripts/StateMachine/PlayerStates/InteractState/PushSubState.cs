@@ -48,6 +48,7 @@ public class PushSubState : BaseState
         {
             if(PushType==1)
             {
+                handAnimator.SetInteger("PushType", PushType);
                 handAnimator.SetBool(PUSH_BOOL_PARAM, true);
             }
             else{

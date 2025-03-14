@@ -101,7 +101,7 @@ public class MovementParentState : BaseState
                 }else{
                     //FIXME: only doing push type 1 now. 
                     //var pushSub = new PushSubState(player, stateMachine,2);
-                    var pushSub = new PushSubState(player, stateMachine,1);
+                    var pushSub = new PushSubState(player, stateMachine);
                     stateMachine.ChangeState(pushSub);
                 }
                 
