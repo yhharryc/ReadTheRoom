@@ -762,6 +762,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilitySystemComponent: {fileID: 176617788372615032}
   enemyAttributeSet: {fileID: 1117805924704922966}
+  projectileSpawnTransform: {fileID: 0}
+  attackBehaviorGraph: {fileID: 0}
+  currentAttack: {fileID: 0}
 --- !u!114 &176617788372615032
 MonoBehaviour:
   m_ObjectHideFlags: 0
