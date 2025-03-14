@@ -9,6 +9,8 @@ public class StateConfig : MonoBehaviour
 
     public GameplayEffect WalkDebuffEffect;
 
+    public GameplayEffect SprintEffect;
+
     private void Awake()
     {
         if(instance!= null && instance!=this)

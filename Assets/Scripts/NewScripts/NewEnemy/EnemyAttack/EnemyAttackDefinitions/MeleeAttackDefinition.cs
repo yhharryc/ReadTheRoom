@@ -36,6 +36,6 @@ public class MeleeAttackDefinition : AttackDefinition
         // 4) Dispatch the event chain (or do direct logic).
         //    Adjust the method name as needed for your system.
         //    E.g., AttackChain vs. PlayerHitChain vs. general chain
-        EventChainManager.Instance.ExecuteAttackChain(ref ctx);
+        EventChainManager.Instance.ExecutePlayerHitChain(ref ctx);
     }
 }

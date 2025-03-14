@@ -38,8 +38,9 @@ public class PlayerCharacter : MonoBehaviour,
     [SerializeField] private float gravity = 9.81f;
     private float verticalSpeed = 0f;
     [SerializeField] private float moveSpeed = 4.0f;    // 玩家移动速度
-    public float MoveSpeed { get { return moveSpeed; } }
-
+    public float MoveSpeed { get { return abilitySystemComponent.GetAttributeValue("MoveSpeed",out bool foundAttribute); } }
+    private float sprintCoolDown = 1f;
+    public float SprintTimer = 0f;
     //[SerializeField] private float rotationSpeed = 180f; 
     [SerializeField]
     private Transform mainCameraTransform;
@@ -85,6 +86,8 @@ public class PlayerCharacter : MonoBehaviour,
 
     private bool isGuarding = false;
     public bool IsGuarding { get { return isGuarding;}}
+
+    public bool SprintInput = false;
 
     // 几个大状态
     public MovementParentState   MovementParentState   { get; private set; }
@@ -212,7 +215,10 @@ public class PlayerCharacter : MonoBehaviour,
         // 初始化状态机, 默认进入移动大状态
         BaseStateMachine.Initialize(MovementParentState);
     }
-
+    public void ResetSprintTimer()
+    {
+        SprintTimer = sprintCoolDown;
+    }
     private void Update()
     {
         // 如果玩家按下Confirm并能交互
@@ -221,9 +227,10 @@ public class PlayerCharacter : MonoBehaviour,
         //{
         //    HoldUseItem(currentActivatable, ActivationTrigger.LeftMouse);
         //}
-
+        SprintTimer -= Mathf.Max(Time.deltaTime,0f);
         // 让状态机自身Update
         BaseStateMachine.Update();
+        
 
     }
     /// <summary>
@@ -278,6 +285,20 @@ public class PlayerCharacter : MonoBehaviour,
         {
             // Let the current HFSM state handle the left-click "canceled"
             BaseStateMachine.CurrentState.OnLeftClickCanceled();
+        }
+    }
+
+    public void OnSprintPerformed(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            // Let the current HFSM state handle the left-click "start"
+            SprintInput = true;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            // Let the current HFSM state handle the left-click "canceled"
+            SprintInput = false;
         }
     }
     #endregion
