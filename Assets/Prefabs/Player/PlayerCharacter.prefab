@@ -383,7 +383,7 @@ MonoBehaviour:
   Accuracy:
     baseValue: 0
   BaseSpreadAngle:
-    baseValue: 2
+    baseValue: 1
 --- !u!143 &7803116860341066059
 CharacterController:
   m_ObjectHideFlags: 0
