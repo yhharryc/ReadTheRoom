@@ -388,6 +388,7 @@ public class AttributeBasedFloat
     [SerializeField] private float postMultiplyAdditiveValue = 0f;
 
     [SerializeField] public GameplayEffectAttributeCaptureDefinition backingAttribute;
+    [SerializeField] private bool useAnimationCurve = false;
     [SerializeField] private AnimationCurve attributeCurve;
     [SerializeField] private AttributeBasedFloatCalculationType attributeCalculationType = AttributeBasedFloatCalculationType.AttributeMagnitude;
 
@@ -456,7 +457,7 @@ public class AttributeBasedFloat
         float scaledValue = preAdd * coefficient;
         float finalValue = scaledValue + postMultiplyAdditiveValue;
 
-        if (attributeCurve != null && attributeCurve.keys.Length > 0)
+        if ((attributeCurve != null && useAnimationCurve) && attributeCurve.keys.Length > 0)
         {
             finalValue = attributeCurve.Evaluate(finalValue);
         }

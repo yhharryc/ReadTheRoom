@@ -56,41 +56,80 @@ public class WalkSubState : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        if(player.SprintInput && (player.MoveInput.y>0f && player.SprintTimer<=0f))
+
+        // 1) Possibly transition to SprintSubState if sprint is allowed
+        if (player.SprintInput && player.MoveInput.y > 0f && player.SprintTimer <= 0f)
         {
             parentState.SetSubState(parentState.SprintSubState);
         }
-        // The usual movement logic
+
+        // 2) Compute movement direction
         float finalSpeed = player.MoveSpeed;
-        if (player.MoveInput.y < 0f)
-            finalSpeed *= 0.5f;
+        if (player.MoveInput.y < 0f) {
+            finalSpeed *= 0.5f; // half speed if going backward
+        }
 
         Vector3 forward = player.GetCameraYawForward() * player.MoveInput.y;
         Vector3 right   = player.GetCameraYawRight()   * player.MoveInput.x;
-        Vector3 movementDir = (forward + right).normalized * finalSpeed* Time.fixedDeltaTime;
-        Vector3 finalMovement =  player.ApplyGravity(movementDir);
-        if (player.characterController && movementDir.magnitude > 0f)
-        {
-            
-            player.characterController.Move(finalMovement);
+        Vector3 movementDir   = (forward + right).normalized * finalSpeed * Time.fixedDeltaTime;
+        Vector3 finalMovement = player.ApplyGravity(movementDir);
 
-            // Possibly apply your walkDebuff if moving...
-            if (walkDebuffHandle.HandleID == 0)
+        // 3) Check if we are actually trying to move
+        bool isTryingToMove = (movementDir.magnitude > 0f);
+
+        if (player.characterController && isTryingToMove)
+        {
+            // 4) Check resource cost (stamina) only if the player's turn is not complete
+            float stamina = player.AbilitySystemComponent.GetAttributeValue("Stamina", out bool foundAttr);
+            float cost    = player.AbilitySystemComponent.GetAttributeValue("MovementCost", out bool foundCostAttr);
+
+            bool canMoveThisFrame = false;
+
+            if (player.IsTurnComplete)
             {
-                walkDebuffHandle = player.AbilitySystemComponent
-                    .ApplyEffectToSelf(StateConfig.Instance.WalkDebuffEffect, 1f);
+                // If the player's turn is "complete," no cost is consumed
+                canMoveThisFrame = true;
+            }
+            else
+            {
+                // Otherwise, check stamina >= cost
+                if (stamina >= cost)
+                {
+                    canMoveThisFrame = true;
+                    // Apply the cost effect if actually moving
+                    player.AbilitySystemComponent.ApplyEffectToSelf(StateConfig.Instance.MovementCostEffect, 1f);
+                }
+            }
+
+            // 5) Actually move if allowed
+            if (canMoveThisFrame)
+            {
+                player.characterController.Move(finalMovement);
+
+                // 6) Ensure the walk debuff is applied if we are moving
+                if (walkDebuffHandle.HandleID == 0)
+                {
+                    walkDebuffHandle = player.AbilitySystemComponent
+                        .ApplyEffectToSelf(StateConfig.Instance.WalkDebuffEffect, 1f);
+                }
+            }
+            else
+            {
+                // If not enough stamina, or we decided not to move for some other reason,
+                // you could do partial movement, or do nothing, or log feedback.
             }
         }
         else
         {
-            // If not moving, remove the effect
-            if (walkDebuffHandle.HandleID != 0)
+            // 7) If not moving, remove the walk debuff effect (if that’s desired)
+            if (player.IsTurnComplete && walkDebuffHandle.HandleID != 0)
             {
                 player.AbilitySystemComponent.RemoveEffectSpec(walkDebuffHandle);
                 walkDebuffHandle = new GameplayEffectSpecHandle();
             }
         }
     }
+
 
     public override void Exit()
     {

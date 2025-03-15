@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 
 
-public class PlayerCharacter : MonoBehaviour, 
+public class PlayerCharacter : TurnActor, 
                               IPlayerCharacter, 
                               IAbilitySystemComponent, 
                               IHitReceiver,
@@ -134,6 +134,7 @@ public class PlayerCharacter : MonoBehaviour,
     #region Unity Lifecycle
     private void Awake()
     {
+        isTurnComplete = true;
         // 常规初始化
         playerInputAction = GetComponent<PlayerInput>();
         artifactItems = new List<ArtifactItem>();
@@ -689,5 +690,27 @@ public class PlayerCharacter : MonoBehaviour,
     public void StopGuarding ()
     {
         this.isGuarding = false;
+    }
+
+    public override void StartTurn()
+    {
+        base.StartTurn();
+        Debug.Log($"[PlayerCharacter] It's my turn!");
+        // Enable player input or UI that indicates "Your Turn"
+    }
+
+    public override void EndTurn()
+    {
+        Debug.Log($"[PlayerCharacter] Turn ended.");
+        // Possibly disable certain input or UI
+    }
+
+    public override bool IsTurnComplete
+    {
+        get {
+            // If you have logic like "the player pressed End Turn" or "did their actions"
+            // or if the player's sub-state says they're done.
+            return isTurnComplete;
+        }
     }
 }

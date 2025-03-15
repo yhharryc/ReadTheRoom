@@ -6,10 +6,12 @@ public class StateConfig : MonoBehaviour
 {
     private static StateConfig instance;
     public static StateConfig Instance => instance;
-
+    
     public GameplayEffect WalkDebuffEffect;
 
     public GameplayEffect SprintEffect;
+
+    public GameplayEffect MovementCostEffect;
 
     private void Awake()
     {

@@ -15,5 +15,7 @@ public class PlayerCharacterAttributeSet : CharacterAttributeSet
 
     //Should only be overridden. 
     public GameplayAttribute BaseSpreadAngle;
+
+    public GameplayAttribute MovementCost;
     
 }

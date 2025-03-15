@@ -27,6 +27,7 @@ public class Room : MonoBehaviour
     void Start()
     {
         InitializeRoomObjects();
+        CombatManager.Instance.RegisterRoom(this);
     }
 
     /// <summary>
@@ -36,9 +37,10 @@ public class Room : MonoBehaviour
     {
         if (isCombatActive || !hasCombatEncounter) return;
         isCombatActive = true;
-
+        //HACK: the singleton could not get the event
+        CombatManager.Instance.OnCombatStarted(this);
         OnCombatStartedInRoom?.Invoke(this);
-
+        
         Debug.Log($"[Room] Combat has started in '{name}'!");
     }
 
@@ -115,5 +117,9 @@ public class Room : MonoBehaviour
 
         remainingEnemyNum++;
         Debug.Log($"[Room] EnemyManager '{newEnemy.name}' added to '{name}'. Total: {remainingEnemyNum}");
+    }
+    public List<EnemyManager> GetEnemies()
+    {
+        return enemies;
     }
 }

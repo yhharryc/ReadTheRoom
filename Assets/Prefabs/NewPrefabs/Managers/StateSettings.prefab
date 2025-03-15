@@ -45,3 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WalkDebuffEffect: {fileID: 11400000, guid: c4137e632fd5bd84f80bfb69e7ff8d5b, type: 2}
+  SprintEffect: {fileID: 11400000, guid: 14497b26d1149af4ab071c569919be41, type: 2}
+  MovementCostEffect: {fileID: 11400000, guid: 209ca403a2127a747b78eb8fb9a139dd, type: 2}
