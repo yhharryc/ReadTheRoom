@@ -1,51 +1,63 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class DamageNumberUI : MonoBehaviour
 {
     private TextMeshProUGUI damageText;
-    
-    // 可选动画的参数
+
+    [Header("Floating/Fading Settings")]
     [SerializeField] private float floatUpSpeed = 30f;
     [SerializeField] private float fadeDuration = 1.5f;
+
     private float timer;
 
-    private void Awake() {
-        damageText= GetComponent<TextMeshProUGUI>();
+    private void Awake()
+    {
+        damageText = GetComponent<TextMeshProUGUI>();
     }
 
     public void SetDamageValue(float damage, bool isCrit, EventContext context)
     {
-        damageText.text = Mathf.RoundToInt(damage).ToString();
-
-        // 若是暴击，换颜色/变大
-        if(isCrit)
+        // Check if damage is 0 => blocked
+        if (damage== 0f)
         {
-            damageText.color = Color.yellow;
-            damageText.fontSize = 40;
-            damageText.text += "!!";
+            damageText.text = "BLOCKED";
+            damageText.color = new Color(0.8f, 0.8f, 0.8f); // Slight grey color
+            damageText.fontSize = 20; 
         }
         else
         {
-            damageText.color = Color.white;
-            damageText.fontSize = 20;
+            // Normal or Crit damage
+            damageText.text = Mathf.RoundToInt(damage).ToString();
+
+            if (isCrit)
+            {
+                damageText.color = Color.yellow;
+                damageText.fontSize = 40;
+                damageText.text += "!!";
+            }
+            else
+            {
+                damageText.color = Color.white;
+                damageText.fontSize = 20;
+            }
         }
 
-        // 也可读取 context.HitData.ElementType 去改颜色
+        // You could also use context.HitData here if you want further customization
+        // e.g., context.HitData.ElementType => change color, etc.
     }
 
     private void Update()
     {
-        // 简单向上飘 + 逐渐透明
         timer += Time.deltaTime;
-        // UI 向上移动
+
+        // Move upward each frame
         transform.Translate(Vector3.up * floatUpSpeed * Time.deltaTime);
-        
-        if(timer >= fadeDuration)
+
+        // Once we've passed the fadeDuration, destroy (or recycle) this object
+        if (timer >= fadeDuration)
         {
-            // 实际项目中可用对象池回收
             Destroy(gameObject);
         }
     }
