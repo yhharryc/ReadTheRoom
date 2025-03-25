@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   priority: 0
   weakPointMultiplier: 0.5
-  armoredMultiplier: 0
+  armoredMultiplier: -100
