@@ -17,5 +17,8 @@ public class PlayerCharacterAttributeSet : CharacterAttributeSet
     public GameplayAttribute BaseSpreadAngle;
 
     public GameplayAttribute MovementCost;
+
+    public GameplayAttribute TurnLength;
+    public GameplayAttribute MaxTurnLength;
     
 }

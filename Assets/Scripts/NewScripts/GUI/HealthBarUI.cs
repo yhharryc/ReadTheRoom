@@ -9,7 +9,11 @@ public class HealthBarUI : MonoBehaviour
     [Header("Bar UI")]
     [SerializeField] private Image fillImage;
 
+    [Tooltip("If true, the fill will go from 1 to 0 instead of 0 to 1.")]
+    [SerializeField] private bool reverseFill = false;
+
     private ICharacter character;
+
     [Tooltip("The name of the variable you are looking for. Needs to be one with a corresponding Max Attribute. For example, 'Health' and 'MaxHealth'")]
     [SerializeField] private string attributeName = "Health";
 
@@ -32,7 +36,6 @@ public class HealthBarUI : MonoBehaviour
 
             case Faction.ENEMY:
                 // Look on this object or in its parent for an ICharacter
-                // (assuming Enemy AI script implements ICharacter)
                 character = GetComponentInParent<ICharacter>();
                 if (character == null)
                 {
@@ -50,16 +53,27 @@ public class HealthBarUI : MonoBehaviour
     {
         // If no character assigned, do nothing
         if (character == null) return;
+
+        // Get the ability system from the character
         AbilitySystemComponent asc = character.GetAbilitySystemComponent();
-        if(asc==null) return;
-        float attributeValue = asc.GetAttributeValue(attributeName,out bool foundAttribute);
-        float maxAttributeValue = asc.GetAttributeValue("Max"+attributeName,out bool foundMaxAttribute);
-        if(foundAttribute && foundMaxAttribute)
+        if (asc == null) return;
+
+        // Get the current and max attribute values
+        float attributeValue = asc.GetAttributeValue(attributeName, out bool foundAttribute);
+        float maxAttributeValue = asc.GetAttributeValue("Max" + attributeName, out bool foundMaxAttribute);
+
+        // If both attributes exist, update the UI
+        if (foundAttribute && foundMaxAttribute && maxAttributeValue > 0f)
         {
-            // Update fill from 0.0 to 1.0
             float fillAmount = attributeValue / maxAttributeValue;
+
+            // If reverseFill is enabled, invert the fill
+            if (reverseFill)
+            {
+                fillAmount = 1f - fillAmount;
+            }
+
             fillImage.fillAmount = Mathf.Clamp01(fillAmount);
         }
-        //FIXME: should hook up to attribute change event so that it's not updating every tick. 
     }
 }

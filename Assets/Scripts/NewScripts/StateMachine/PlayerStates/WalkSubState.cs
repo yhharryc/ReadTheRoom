@@ -56,7 +56,10 @@ public class WalkSubState : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-
+        if(!player.IsActorTurn())
+        {
+            return;
+        }
         // 1) Possibly transition to SprintSubState if sprint is allowed
         if (player.SprintInput && player.MoveInput.y > 0f && player.SprintTimer <= 0f)
         {
@@ -155,7 +158,13 @@ public class WalkSubState : BaseState
         IActivatable item = player.GetCurrentActivatable(); 
         if (item != null && player.CanActivate)
         {
+            //if(CombatManager.Instance.IsCombatStarted && !TurnManager.Instance.IsActorTurn(player))
+
             item.BeginUse(player, ActivationTrigger.LeftMouse);
+            if((CombatManager.Instance.IsCombatStarted && TurnManager.Instance.IsActorTurn(player) )&& !player.TimedTurnComponent.TimerActive)
+            {
+                player.BeginTimedTurn();
+            }
         }
         else
         {

@@ -17,7 +17,8 @@ public class PlayerCharacter : TurnActor,
     private AbilitySystemComponent abilitySystemComponent;
     public AbilitySystemComponent AbilitySystemComponent{get{return abilitySystemComponent;}}
     private WeaponComponent weaponComponent;
-
+    private TimedTurnComponent timedTurnComponent;
+    public TimedTurnComponent TimedTurnComponent{get{return timedTurnComponent;}}
     public GameObject Owner { get { return gameObject; } }
     public HitPartType HitPartType {get{return HitPartType.Normal;}}
     /// <summary>
@@ -144,7 +145,7 @@ public class PlayerCharacter : TurnActor,
         hand.Initialize(this);
         interactComponent = GetComponentInChildren<InteractComponent>();
         freeLookCameraController = GetComponentInChildren<FreeLookCameraController>();
-
+        timedTurnComponent = GetComponentInChildren<TimedTurnComponent>();
         // 获取 CharacterController
         characterController = GetComponent<CharacterController>();
         if (characterController == null)
@@ -697,11 +698,15 @@ public class PlayerCharacter : TurnActor,
         base.StartTurn();
         Debug.Log($"[PlayerCharacter] It's my turn!");
         // Enable player input or UI that indicates "Your Turn"
+        this.CanActivate = true;
     }
 
     public override void EndTurn()
     {
+        this.CanActivate = false;
         Debug.Log($"[PlayerCharacter] Turn ended.");
+        timedTurnComponent.OnTurnComplete -= TurnManager.Instance.EndCurrentTurn;
+        abilitySystemComponent.SetAttributeBaseValue("TurnLength",abilitySystemComponent.GetAttributeValue("MaxTurnLength",out bool foundMaxAttribute),out bool foundAttribute);
         // Possibly disable certain input or UI
     }
 
@@ -712,5 +717,10 @@ public class PlayerCharacter : TurnActor,
             // or if the player's sub-state says they're done.
             return isTurnComplete;
         }
+    }
+    public void BeginTimedTurn()
+    {
+        timedTurnComponent.OnTurnComplete += TurnManager.Instance.EndCurrentTurn;
+        timedTurnComponent.BeginTimedTurn(abilitySystemComponent.GetAttributeValue("MaxTurnLength",out bool foundAttribute));
     }
 }

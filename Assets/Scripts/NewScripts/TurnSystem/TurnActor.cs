@@ -25,4 +25,9 @@ public abstract class TurnActor : MonoBehaviour
     [SerializeField]
     protected bool isTurnComplete;
     public abstract bool IsTurnComplete { get; }
+
+    public virtual bool IsActorTurn()
+    {
+        return TurnManager.Instance.IsActorTurn(this);
+    }
 }

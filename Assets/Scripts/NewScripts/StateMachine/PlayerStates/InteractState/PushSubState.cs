@@ -28,8 +28,10 @@ public class PushSubState : BaseState
     {
         base.Enter();
         Debug.Log("Enter Push State");
-        // 1) Grab the PlayerCharacter reference
-        
+        if(CombatManager.Instance.IsCombatStarted && !player.TimedTurnComponent.TimerActive)
+        {
+            player.BeginTimedTurn();
+        }
 
         // 2) Retrieve the Animator on the player’s hand (or the relevant object)
         //    This might be `player.Hand.Animator`, or `player.Hand.GetComponent<Animator>()`, etc.

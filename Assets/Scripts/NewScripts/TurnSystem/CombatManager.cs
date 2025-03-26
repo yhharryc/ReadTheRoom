@@ -9,7 +9,8 @@ public class CombatManager : MonoBehaviour
 
     [Tooltip("Reference to the player actor if you want to include them in the turn system.")]
     [SerializeField] private PlayerCharacter playerActor;
-
+    private bool isCombatStarted = false;
+    public bool IsCombatStarted{get{return isCombatStarted;}}
     // You may keep track of which enemies are currently in active combat
     private List<EnemyManager> activeEnemies = new List<EnemyManager>();
 
@@ -78,7 +79,7 @@ public class CombatManager : MonoBehaviour
     public void OnCombatStarted(Room room)
     {
         Debug.Log($"CombatManager: Combat started in room '{room.name}'.");
-
+        isCombatStarted = true;
         // 1) Gather all enemies from the room
         var enemies = room.GetEnemies(); 
         // (If your Room code has a public method or property that returns the list of EnemyManagers)
@@ -107,7 +108,7 @@ public class CombatManager : MonoBehaviour
     private void OnCombatEnded(Room room)
     {
         Debug.Log($"CombatManager: Combat ended in room '{room.name}'.");
-        
+        isCombatStarted = false;
         // 1) Gather all enemies from the room
         var enemies = room.GetEnemies();
 
