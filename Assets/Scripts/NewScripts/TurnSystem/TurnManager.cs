@@ -132,7 +132,7 @@ public class TurnManager : MonoBehaviour
     public bool IsActorTurn(TurnActor turnActor)
     {
         if(!CombatManager.Instance.IsCombatStarted)
-        return true;
+        return false;
         TurnActor currentActor = Instance.turnActors[currentTurnIndex];
         if (currentActor == turnActor)
         {

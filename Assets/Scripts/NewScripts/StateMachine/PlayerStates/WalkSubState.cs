@@ -56,8 +56,9 @@ public class WalkSubState : BaseState
     public override void UpdatePhysics()
     {
         base.UpdatePhysics();
-        if(!player.IsActorTurn())
+        if(CombatManager.Instance.IsCombatStarted &&!player.IsActorTurn())
         {
+            //TODO: Add Readability Feedback to failed movement action
             return;
         }
         // 1) Possibly transition to SprintSubState if sprint is allowed

@@ -24,7 +24,7 @@ public abstract class TurnActor : MonoBehaviour
     /// </summary>
     [SerializeField]
     protected bool isTurnComplete;
-    public abstract bool IsTurnComplete { get; }
+    public virtual bool IsTurnComplete { get; set;}
 
     public virtual bool IsActorTurn()
     {

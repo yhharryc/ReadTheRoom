@@ -197,6 +197,7 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
         animator.SetBool("IsDead", true);
         animator.SetTrigger("DieTrigger");
         OnCharacterDied?.Invoke(this);
+        behaviorGraph.End();
         //gameObject.SetActive(false);
         
     }
@@ -247,20 +248,14 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
     {
         Debug.Log($"[{gameObject.name}] It's my turn!");
         // Enable player input or UI that indicates "Your Turn"
+        
     }
 
     public override void EndTurn()
     {
         Debug.Log($"[{gameObject.name}] Turn ended.");
         // Possibly disable certain input or UI
+        //behaviorGraph.Start();
     }
 
-    public override bool IsTurnComplete
-    {
-        get {
-            // If you have logic like "the player pressed End Turn" or "did their actions"
-            // or if the player's sub-state says they're done.
-            return isTurnComplete;
-        }
-    }
 }
