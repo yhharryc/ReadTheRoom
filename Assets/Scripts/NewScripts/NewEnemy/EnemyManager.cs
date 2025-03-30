@@ -245,13 +245,13 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
 
     public override void StartTurn()
     {
-        Debug.Log($"[PlayerCharacter] It's my turn!");
+        Debug.Log($"[{gameObject.name}] It's my turn!");
         // Enable player input or UI that indicates "Your Turn"
     }
 
     public override void EndTurn()
     {
-        Debug.Log($"[PlayerCharacter] Turn ended.");
+        Debug.Log($"[{gameObject.name}] Turn ended.");
         // Possibly disable certain input or UI
     }
 
