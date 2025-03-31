@@ -313,7 +313,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 288d9f502446dbc4392a724e3b383612, type: 3}
   switchInterval: 0.5
   rotateToFacePlayer: 0
-  DoesAutoPlay: 1
+  DoesAutoPlay: 0
 --- !u!212 &9173091318614835201
 SpriteRenderer:
   m_ObjectHideFlags: 0
