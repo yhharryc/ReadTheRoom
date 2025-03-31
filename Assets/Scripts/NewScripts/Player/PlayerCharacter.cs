@@ -699,6 +699,7 @@ public class PlayerCharacter : TurnActor,
         Debug.Log($"[PlayerCharacter] It's my turn!");
         // Enable player input or UI that indicates "Your Turn"
         this.CanActivate = true;
+        abilitySystemComponent.SetAttributeBaseValue("Stamina",abilitySystemComponent.GetAttributeValue("MaxStamina",out bool foundMaxAttribute),out bool foundAttribute);
     }
 
     public override void EndTurn()
@@ -710,14 +711,6 @@ public class PlayerCharacter : TurnActor,
         // Possibly disable certain input or UI
     }
 
-    public override bool IsTurnComplete
-    {
-        get {
-            // If you have logic like "the player pressed End Turn" or "did their actions"
-            // or if the player's sub-state says they're done.
-            return isTurnComplete;
-        }
-    }
     public void BeginTimedTurn()
     {
         timedTurnComponent.OnTurnComplete += TurnManager.Instance.EndCurrentTurn;

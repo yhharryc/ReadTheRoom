@@ -207,7 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7958e3cc81cac24c843725478588db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxLineCastDistance: 1.3
+  MaxLineCastDistance: 1.5
   enemyLayer:
     serializedVersion: 2
     m_Bits: 16384

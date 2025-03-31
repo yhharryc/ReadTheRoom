@@ -125,15 +125,29 @@ public class WalkSubState : BaseState
         }
         else
         {
+
             // 7) If not moving, remove the walk debuff effect (if that’s desired)
-            if (player.IsTurnComplete && walkDebuffHandle.HandleID != 0)
-            {
-                player.AbilitySystemComponent.RemoveEffectSpec(walkDebuffHandle);
-                walkDebuffHandle = new GameplayEffectSpecHandle();
+            TryRemoveWalkDebuff();
+            /*
+            if(!CombatManager.Instance.IsCombatStarted){
+                TryRemoveWalkDebuff();
+            }else{
+                if(player.IsTurnComplete)
+                {
+                    TryRemoveWalkDebuff();
+                }
             }
+            */
         }
     }
-
+    private void TryRemoveWalkDebuff()
+    {
+        if (walkDebuffHandle.HandleID != 0)
+        {
+            player.AbilitySystemComponent.RemoveEffectSpec(walkDebuffHandle);
+            walkDebuffHandle = new GameplayEffectSpecHandle();
+        }
+    }
 
     public override void Exit()
     {
