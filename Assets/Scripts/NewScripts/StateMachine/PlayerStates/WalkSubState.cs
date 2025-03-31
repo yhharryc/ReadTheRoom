@@ -89,7 +89,7 @@ public class WalkSubState : BaseState
 
             bool canMoveThisFrame = false;
 
-            if (player.IsTurnComplete)
+            if (!CombatManager.Instance.IsCombatStarted)
             {
                 // If the player's turn is "complete," no cost is consumed
                 canMoveThisFrame = true;

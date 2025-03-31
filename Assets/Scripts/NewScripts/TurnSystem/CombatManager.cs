@@ -9,11 +9,14 @@ public class CombatManager : MonoBehaviour
 
     [Tooltip("Reference to the player actor if you want to include them in the turn system.")]
     [SerializeField] private PlayerCharacter playerActor;
+
     private bool isCombatStarted = false;
     public bool IsCombatStarted{get{return isCombatStarted;}}
     // You may keep track of which enemies are currently in active combat
     private List<EnemyManager> activeEnemies = new List<EnemyManager>();
-
+    [SerializeField] private GameplayEffect staminaRecoverEffect;
+    private GameplayEffectSpecHandle staminaRecoverEffectHandle;
+    
     private void Awake()
     {
         // Singleton setup.
@@ -22,6 +25,7 @@ public class CombatManager : MonoBehaviour
             Instance = this;
             // Uncomment if you want this object to persist across scenes.
             // DontDestroyOnLoad(gameObject);
+            staminaRecoverEffectHandle = new GameplayEffectSpecHandle();
         }
         else
         {
@@ -60,7 +64,7 @@ public class CombatManager : MonoBehaviour
         if (room == null) return;
         Debug.Log($"CombatManager: '{room.name}' is Registered.");
         //room.OnCombatStartedInRoom  += Instance.OnCombatStarted;
-        //room.OnCombatEndedInRoom    += OnCombatEnded;
+        room.OnCombatEndedInRoom    += OnCombatEnded;
     }
 
     /// <summary>
@@ -70,7 +74,7 @@ public class CombatManager : MonoBehaviour
     {
         if (room == null) return;
         //room.OnCombatStartedInRoom  -= OnCombatStarted;
-        //room.OnCombatEndedInRoom    -= OnCombatEnded;
+        room.OnCombatEndedInRoom    -= OnCombatEnded;
     }
 
     /// <summary>
@@ -86,11 +90,17 @@ public class CombatManager : MonoBehaviour
         if (playerActor != null)
         {
             TurnManager.Instance.RegisterTurnActor(playerActor);
+            if (staminaRecoverEffectHandle.HandleID != 0)
+            {
+                playerActor.AbilitySystemComponent.RemoveEffectSpec(staminaRecoverEffectHandle);
+                staminaRecoverEffectHandle = new GameplayEffectSpecHandle();
+            }
         }
         // 2) Register them with TurnManager
         foreach (var enemy in enemies)
         {
             TurnManager.Instance.RegisterTurnActor(enemy);
+            
             activeEnemies.Add(enemy);
         }
 
@@ -123,6 +133,13 @@ public class CombatManager : MonoBehaviour
         if (playerActor != null)
         {
             TurnManager.Instance.UnregisterTurnActor(playerActor);
+            playerActor.IsTurnComplete = true;
+            if (staminaRecoverEffectHandle.HandleID == 0)
+                {
+                    staminaRecoverEffectHandle = playerActor.AbilitySystemComponent
+                        .ApplyEffectToSelf(staminaRecoverEffect, 1f);
+                }
+            //playerActor.AbilitySystemComponent.ApplyEffectToSelf(staminaRecoverEffect, 1f);
         }
 
         // 4) If you want to forcibly end the turn cycle:
@@ -130,4 +147,5 @@ public class CombatManager : MonoBehaviour
         // If you want a "StopTurnCycle()" or "ClearAllActors()" you can add that to TurnManager.
         TurnManager.Instance.ClearAllActors();
     }
+
 }

@@ -52,6 +52,14 @@ public class TurnManager : MonoBehaviour
     {
         if (turnActors.Contains(actor))
         {
+            if(turnActors[currentTurnIndex]==actor)
+            {
+                //the actor deleting is the current turn actor
+                TurnManager.Instance.EndCurrentTurn();
+                turnActors.Remove(actor);
+                Debug.Log($"[TurnManager] Unregistered TurnActor '{actor.name}'. Remaining: {turnActors.Count}");
+                return;
+            }
             turnActors.Remove(actor);
             Debug.Log($"[TurnManager] Unregistered TurnActor '{actor.name}'. Remaining: {turnActors.Count}");
         }

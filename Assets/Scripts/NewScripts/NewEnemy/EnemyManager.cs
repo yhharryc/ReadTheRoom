@@ -198,7 +198,8 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
         animator.SetTrigger("DieTrigger");
         OnCharacterDied?.Invoke(this);
         behaviorGraph.End();
-        //gameObject.SetActive(false);
+        TurnManager.Instance.UnregisterTurnActor(this);
+        gameObject.SetActive(false);
         
     }
     public void OnDeathStateEnded()
