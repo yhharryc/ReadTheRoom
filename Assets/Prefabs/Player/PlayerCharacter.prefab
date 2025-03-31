@@ -416,9 +416,9 @@ MonoBehaviour:
   MovementCost:
     baseValue: 0.5
   TurnLength:
-    baseValue: 3
+    baseValue: 5
   MaxTurnLength:
-    baseValue: 3
+    baseValue: 5
 --- !u!143 &7803116860341066059
 CharacterController:
   m_ObjectHideFlags: 0

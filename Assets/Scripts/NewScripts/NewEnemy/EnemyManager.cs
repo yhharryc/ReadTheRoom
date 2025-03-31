@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Behavior;
 using Unity.Behavior;  
+using MoreMountains.Feedbacks;
 
 public class EnemyManager : TurnActor, ICharacter, IRoomObject
 {
@@ -35,6 +36,10 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
     public AttackDefinition CurrentAttack{get{return currentAttack;}}
 
     private GameObject target;
+
+    [Header("MMF Feedback Settings")]
+    [SerializeField]
+    private MMF_Player hurtFeedback;
 
     private void Awake()
     {
@@ -93,7 +98,7 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
 
     }
 
-    public void TakeDamage(EventContext context)
+    public virtual void TakeDamage(EventContext context)
     {
         //if (isDead) return;
         float dmg = context.HitData.FinalDamage;
@@ -101,14 +106,17 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
         float newHP = oldHP - dmg;
 
         enemyAttributeSet.Health.BaseValue = newHP;
-
+        if(dmg>0f)
+        {
+            hurtFeedback?.PlayFeedbacks();
+        }
         if (newHP <= 0f && !isDead)
         {
             Die(context);
         }
     }
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
     {
         //if (isDead) return;
         float oldHP = enemyAttributeSet.Health.CurrentValue;
