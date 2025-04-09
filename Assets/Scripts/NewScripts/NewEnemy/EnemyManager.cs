@@ -1,6 +1,6 @@
 using UnityEngine;
 using Unity.Behavior;
-using Unity.Behavior;  
+using Unity.Properties;
 using MoreMountains.Feedbacks;
 
 public class EnemyManager : TurnActor, ICharacter, IRoomObject
@@ -267,4 +267,10 @@ public class EnemyManager : TurnActor, ICharacter, IRoomObject
         //behaviorGraph.Start();
     }
 
+    public virtual Unity.Behavior.Node.Status OnIdleBehavior(int behaviorID = 0)
+    {
+        return Unity.Behavior.Node.Status.Success;
+    }
+
 }
+

@@ -15,6 +15,11 @@ public class ShieldEnemy : EnemyManager
             RotateMMF?.PlayFeedbacks();
         }
     }
-
+    public override Unity.Behavior.Node.Status OnIdleBehavior(int behaviorID = 0)
+    {
+        
+        RotateMMF?.PlayFeedbacks();
+        return Unity.Behavior.Node.Status.Success;
+    }
     
 }
