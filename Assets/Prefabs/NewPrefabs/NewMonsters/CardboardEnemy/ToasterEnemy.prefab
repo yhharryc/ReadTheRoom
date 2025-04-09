@@ -569,13 +569,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5186445074742455976, guid: 1cdf6a0a5393c444882bad4fff01e69e,
         type: 3}
-      propertyPath: managedReferences[2059019840804094523].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: managedReferences[2526494322412224943].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 2630053089126054716}
+    - target: {fileID: 5186445074742455976, guid: 1cdf6a0a5393c444882bad4fff01e69e,
+        type: 3}
+      propertyPath: managedReferences[2526494322412224943].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAnimationCheckHit
       objectReference: {fileID: 0}
     - target: {fileID: 6504416529825478281, guid: 1cdf6a0a5393c444882bad4fff01e69e,
         type: 3}
       propertyPath: Health.baseValue
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9173091318614835201, guid: 1cdf6a0a5393c444882bad4fff01e69e,
         type: 3}
@@ -628,7 +633,7 @@ MonoBehaviour:
     type: 2}
   currentAttack: {fileID: 11400000, guid: fa7f66bb12d8fb94eb22276448e20f84, type: 2}
   hurtFeedback: {fileID: 4868624349142940968}
-  toastObject: {fileID: 0}
+  toastObject: {fileID: 5201425830069218698}
 --- !u!114 &2238909411811717344 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6504416529825478281, guid: 1cdf6a0a5393c444882bad4fff01e69e,
