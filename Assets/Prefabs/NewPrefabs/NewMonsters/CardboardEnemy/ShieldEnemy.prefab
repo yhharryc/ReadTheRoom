@@ -2300,7 +2300,17 @@ PrefabInstance:
       objectReference: {fileID: -8240905183891259991}
     - target: {fileID: 5186445074742455976, guid: 1cdf6a0a5393c444882bad4fff01e69e,
         type: 3}
+      propertyPath: managedReferences[2526494322412224943].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -8240905183891259991}
+    - target: {fileID: 5186445074742455976, guid: 1cdf6a0a5393c444882bad4fff01e69e,
+        type: 3}
       propertyPath: managedReferences[2059019840804094523].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnAnimationCheckHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5186445074742455976, guid: 1cdf6a0a5393c444882bad4fff01e69e,
+        type: 3}
+      propertyPath: managedReferences[2526494322412224943].PlayEvents.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnAnimationCheckHit
       objectReference: {fileID: 0}
     - target: {fileID: 9173091318614835201, guid: 1cdf6a0a5393c444882bad4fff01e69e,
